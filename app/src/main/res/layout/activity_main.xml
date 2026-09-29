@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="POKÉAPP"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etPokemon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nombre o ID del Pokémon"
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/btnConsultar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CONSULTAR"
+            android:layout_marginTop="12dp" />
+
+        <ImageView
+            android:id="@+id/imgPokemon"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_gravity="center"
+            android:contentDescription="Imagen del Pokémon" />
+
+        <TextView
+            android:id="@+id/txtNombrePokemon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="POKÉMON"
+            android:textAlignment="center"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtIdPokemon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="#---"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/txtHp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="HP: --" />
+
+        <TextView
+            android:id="@+id/txtAtaque"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ataque: --" />
+
+        <TextView
+            android:id="@+id/txtDefensa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Defensa: --" />
+
+        <TextView
+            android:id="@+id/txtAtaqueEspecial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ataque especial: --" />
+
+        <TextView
+            android:id="@+id/txtDefensaEspecial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Defensa especial: --" />
+
+        <TextView
+            android:id="@+id/txtVelocidad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Velocidad: --" />
+
+    </LinearLayout>
+</ScrollView>
