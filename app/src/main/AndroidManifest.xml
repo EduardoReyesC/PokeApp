@@ -24,6 +24,10 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".MenuActivity"
+            android:exported="false" />
+
         <!-- 2. Pantalla de Login a la que redirige SplashActivity -->
         <activity
             android:name=".LoginActivity"

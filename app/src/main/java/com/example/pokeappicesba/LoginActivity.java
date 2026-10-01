@@ -25,6 +25,27 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Dentro de onCreate o como método auxiliar:
+        Button btnForgotPassword = findViewById(R.id.btnForgotPassword);
+        if (btnForgotPassword != null) {
+            btnForgotPassword.setOnClickListener(v -> {
+                String email = etEmail.getText().toString().trim();
+                if (email.isEmpty()) {
+                    Toast.makeText(this, "Ingresa tu correo para recuperar contraseña", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                mAuth.sendPasswordResetEmail(email)
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(this, "Correo de recuperación enviado", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            });
+        }
+
         try {
             setContentView(R.layout.activity_login);
 

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0F172A"
@@ -11,26 +10,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="16dp">
 
-        <!-- Título -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="POKÉDEX OFICIAL"
-            android:textAlignment="center"
-            android:textColor="@android:color/white"
-            android:textSize="26sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Buscador -->
+        <!-- Buscador y Botón Ver Favoritos -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="8dp">
 
             <EditText
                 android:id="@+id/etPokemon"
@@ -40,7 +28,7 @@
                 android:background="@android:drawable/editbox_background_normal"
                 android:hint="Nombre o ID..."
                 android:inputType="text"
-                android:padding="12dp"
+                android:padding="10dp"
                 android:textColor="@android:color/black" />
 
             <Button
@@ -48,26 +36,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Buscar"
-                android:layout_marginStart="8dp" />
+                android:layout_marginStart="6dp" />
         </LinearLayout>
 
-        <!-- Tarjeta de Contenedor del Pokémon -->
+        <!-- Botón para desplegar favoritos -->
+        <Button
+            android:id="@+id/btnVerFavoritos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="⭐ Ver Favoritos Guardados"
+            android:backgroundTint="#F59E0B"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Ficha del Pokémon -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
             app:cardBackgroundColor="#1E293B"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="12dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp"
+                android:padding="14dp"
                 android:gravity="center_horizontal">
 
-                <!-- Fila de Cabecera: ID, Nombre y Favorito -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -99,21 +94,17 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="Marcar favorito"
+                        android:contentDescription="Favorito"
                         android:src="@android:drawable/star_big_off" />
                 </LinearLayout>
 
-                <!-- Sprite Principal -->
                 <ImageView
                     android:id="@+id/imgPokemon"
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:contentDescription="Imagen del Pokémon" />
+                    android:layout_marginVertical="6dp" />
 
-                <!-- Botón de Audio Cry -->
                 <Button
                     android:id="@+id/btnPlayCry"
                     android:layout_width="wrap_content"
@@ -121,115 +112,65 @@
                     android:text="Escuchar Cry"
                     android:textSize="12sp"
                     android:backgroundTint="#3B82F6"
-                    android:layout_marginBottom="12dp" />
+                    android:layout_marginBottom="8dp" />
 
-                <!-- Tipos -->
                 <TextView
                     android:id="@+id/txtTipos"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Tipo: --"
                     android:textColor="#38BDF8"
-                    android:textSize="15sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
-                    android:layout_marginBottom="6dp" />
+                    android:layout_marginBottom="4dp" />
 
-                <!-- Altura y Peso -->
                 <TextView
                     android:id="@+id/txtMedidas"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Altura: -- | Peso: --"
                     android:textColor="#E2E8F0"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="6dp" />
+                    android:textSize="13sp"
+                    android:layout_marginBottom="4dp" />
 
-                <!-- Habilidades -->
                 <TextView
                     android:id="@+id/txtHabilidades"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Habilidades: --"
                     android:textColor="#E2E8F0"
-                    android:textSize="14sp" />
+                    android:textSize="13sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- Tarjeta de Estadísticas Base -->
+        <!-- Estadísticas -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
             app:cardBackgroundColor="#1E293B">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="14dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Estadísticas Base"
                     android:textColor="@android:color/white"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
-                    android:layout_marginBottom="12dp" />
+                    android:layout_marginBottom="8dp" />
 
-                <TextView
-                    android:id="@+id/txtHp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="HP: --"
-                    android:textColor="#F87171"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="6dp" />
-
-                <TextView
-                    android:id="@+id/txtAtaque"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Ataque: --"
-                    android:textColor="#FBBF24"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="6dp" />
-
-                <TextView
-                    android:id="@+id/txtDefensa"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Defensa: --"
-                    android:textColor="#60A5FA"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="6dp" />
-
-                <TextView
-                    android:id="@+id/txtAtaqueEspecial"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Atq. Especial: --"
-                    android:textColor="#F472B6"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="6dp" />
-
-                <TextView
-                    android:id="@+id/txtDefensaEspecial"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Def. Especial: --"
-                    android:textColor="#818CF8"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="6dp" />
-
-                <TextView
-                    android:id="@+id/txtVelocidad"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Velocidad: --"
-                    android:textColor="#34D399"
-                    android:textSize="14sp" />
+                <TextView android:id="@+id/txtHp" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="HP: --" android:textColor="#F87171" android:layout_marginBottom="4dp" />
+                <TextView android:id="@+id/txtAtaque" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Ataque: --" android:textColor="#FBBF24" android:layout_marginBottom="4dp" />
+                <TextView android:id="@+id/txtDefensa" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Defensa: --" android:textColor="#60A5FA" android:layout_marginBottom="4dp" />
+                <TextView android:id="@+id/txtAtaqueEspecial" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Atq. Especial: --" android:textColor="#F472B6" android:layout_marginBottom="4dp" />
+                <TextView android:id="@+id/txtDefensaEspecial" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Def. Especial: --" android:textColor="#818CF8" android:layout_marginBottom="4dp" />
+                <TextView android:id="@+id/txtVelocidad" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Velocidad: --" android:textColor="#34D399" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

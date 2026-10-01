@@ -7,17 +7,28 @@ import android.os.Looper;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class SplashActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        // Temporizador de 3 segundos antes de pasar al Login
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            Intent intent;
+            if (currentUser != null) {
+                // Sesión activa -> Menú principal
+                intent = new Intent(SplashActivity.this, MenuActivity.class);
+            } else {
+                // Sin sesión -> Login
+                intent = new Intent(SplashActivity.this, LoginActivity.class);
+            }
             startActivity(intent);
-            finish(); // Cierra el Splash para que no se pueda volver con el botón "Atrás"
-        }, 3000);
+            finish();
+        }, 2000);
     }
 }
