@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "65670517426",
+    "project_id": "pokeappicesba1",
+    "storage_bucket": "pokeappicesba1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:65670517426:android:b58c950fb5ddb47488efab",
+        "android_client_info": {
+          "package_name": "com.example.pokeappicesba"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbkSymeOelw3Z-4unLASBLw7aQ2r7Lre8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
