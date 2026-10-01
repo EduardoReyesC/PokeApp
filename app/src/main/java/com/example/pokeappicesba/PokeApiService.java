@@ -7,7 +7,11 @@ import retrofit2.http.Path;
 public interface PokeApiService {
 
     @GET("pokemon/{pokemon}")
-    Call<Pokemon> getPokemon(
-            @Path("pokemon") String pokemon
-    );
+    Call<Pokemon> getPokemon(@Path("pokemon") String pokemon);
+
+    @GET("pokemon-species/{id}")
+    Call<PokemonSpecies> getPokemonSpecies(@Path("id") int id);
+
+    @GET("move/{name}")
+    Call<MoveDetail> getMoveDetail(@Path("name") String name);
 }

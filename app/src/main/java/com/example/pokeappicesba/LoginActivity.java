@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
                                             Toast.makeText(LoginActivity.this, "¡Bienvenido de nuevo!", Toast.LENGTH_SHORT).show();
-                                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                            startActivity(new Intent(LoginActivity.this, MenuActivity.class));
                                             finish();
                                         } else {
                                             Toast.makeText(LoginActivity.this, "Error de acceso: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
@@ -99,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
                                             Toast.makeText(LoginActivity.this, "¡Cuenta creada con éxito!", Toast.LENGTH_SHORT).show();
-                                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                            startActivity(new Intent(LoginActivity.this, MenuActivity.class));
                                             finish();
                                         } else {
                                             Toast.makeText(LoginActivity.this, "Error en registro: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();

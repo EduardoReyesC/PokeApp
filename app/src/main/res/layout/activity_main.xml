@@ -1,237 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0F172A"
-    android:fillViewport="true">
+    android:background="#0F172A">
 
+    <!-- 1. Barra de Búsqueda y Botones Superiores -->
     <LinearLayout
+        android:id="@+id/topBarBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="8dp"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Título -->
-        <TextView
+        <EditText
+            android:id="@+id/etPokemon"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:background="@android:drawable/editbox_background_normal"
+            android:hint="Nombre o ID..."
+            android:inputType="text"
+            android:paddingHorizontal="12dp"
+            android:textColor="@android:color/black"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btnConsultar"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:layout_marginStart="6dp"
+            android:text="Buscar" />
+
+        <ImageButton
+            android:id="@+id/btnPlayCry"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Escuchar Cry"
+            android:src="@android:drawable/ic_lock_silent_mode_off"
+            app:tint="@android:color/white" />
+
+        <ImageButton
+            android:id="@+id/btnFavorite"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Favorito"
+            android:src="@android:drawable/star_big_off" />
+    </LinearLayout>
+
+    <!-- 2. Tarjeta Superior de Presentación -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardPokemonHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="6dp"
+        app:cardBackgroundColor="#1E293B"
+        app:cardCornerRadius="18dp"
+        app:cardElevation="4dp"
+        app:layout_constraintTop_toBottomOf="@id/topBarBox">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="POKÉDEX OFICIAL"
-            android:textAlignment="center"
-            android:textColor="@android:color/white"
-            android:textSize="26sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp" />
+            android:paddingVertical="12dp"
+            android:paddingHorizontal="8dp">
 
-        <!-- Buscador -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="16dp">
+            <ImageButton
+                android:id="@+id/btnPrevPokemon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Anterior Pokémon"
+                android:src="@android:drawable/ic_media_previous"
+                app:tint="#FBBF24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/imgPokemon"
+                app:layout_constraintBottom_toBottomOf="@+id/imgPokemon" />
 
-            <EditText
-                android:id="@+id/etPokemon"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@android:drawable/editbox_background_normal"
-                android:hint="Nombre o ID..."
-                android:inputType="text"
-                android:padding="12dp"
-                android:textColor="@android:color/black" />
+            <ImageView
+                android:id="@+id/imgPokemon"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:contentDescription="Sprite del Pokémon"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btnPrevPokemon"
+                app:layout_constraintEnd_toStartOf="@+id/btnNextPokemon" />
 
-            <Button
-                android:id="@+id/btnConsultar"
+            <ImageButton
+                android:id="@+id/btnNextPokemon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Siguiente Pokémon"
+                android:src="@android:drawable/ic_media_next"
+                app:tint="#FBBF24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/imgPokemon"
+                app:layout_constraintBottom_toBottomOf="@+id/imgPokemon" />
+
+            <TextView
+                android:id="@+id/txtHeaderTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Buscar"
-                android:layout_marginStart="8dp" />
-        </LinearLayout>
+                android:text="0001 BULBASAUR"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="6dp"
+                app:layout_constraintTop_toBottomOf="@id/imgPokemon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Tarjeta de Contenedor del Pokémon -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            app:cardBackgroundColor="#1E293B"
-            android:layout_marginBottom="16dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/txtTiposTag"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp"
-                android:gravity="center_horizontal">
+                android:layout_marginTop="4dp"
+                android:background="#0F172A"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="4dp"
+                android:text="PLANTA / VENENO"
+                android:textColor="#38BDF8"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/txtHeaderTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
-                <!-- Fila de Cabecera: ID, Nombre y Favorito -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
-                    <TextView
-                        android:id="@+id/txtIdPokemon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="#---"
-                        android:textColor="#94A3B8"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+    <!-- 3. Pestañas Deslizantes -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/dexTabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="#0F172A"
+        app:tabIndicatorColor="#38BDF8"
+        app:tabIndicatorHeight="3dp"
+        app:tabSelectedTextColor="#38BDF8"
+        app:tabTextColor="#94A3B8"
+        app:tabMode="fixed"
+        app:layout_constraintTop_toBottomOf="@id/cardPokemonHeader" />
 
-                    <TextView
-                        android:id="@+id/txtNombrePokemon"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="POKÉMON"
-                        android:textColor="@android:color/white"
-                        android:textSize="22sp"
-                        android:textStyle="bold"
-                        android:layout_marginStart="12dp" />
+    <!-- 4. Contenedor ViewPager2 (dejamos 60dp de margen inferior para no tapar contenido) -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/dexViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#0F172A"
+        android:paddingBottom="60dp"
+        app:layout_constraintTop_toBottomOf="@id/dexTabLayout"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-                    <ImageButton
-                        android:id="@+id/btnFavorite"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="Marcar favorito"
-                        android:src="@android:drawable/star_big_off" />
-                </LinearLayout>
+    <!-- 5. Botón circular flotante estilo Pokémon GO (abajo al centro) -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btnBottomHome"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="16dp"
+        app:cardCornerRadius="26dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="#1E293B"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-                <!-- Sprite Principal -->
-                <ImageView
-                    android:id="@+id/imgPokemon"
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:contentDescription="Imagen del Pokémon" />
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="center"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:contentDescription="Regresar al Menú Principal"
+            app:tint="#EF4444" />
+    </androidx.cardview.widget.CardView>
 
-                <!-- Botón de Audio Cry -->
-                <Button
-                    android:id="@+id/btnPlayCry"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Escuchar Cry"
-                    android:textSize="12sp"
-                    android:backgroundTint="#3B82F6"
-                    android:layout_marginBottom="12dp" />
-
-                <!-- Tipos -->
-                <TextView
-                    android:id="@+id/txtTipos"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Tipo: --"
-                    android:textColor="#38BDF8"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="6dp" />
-
-                <!-- Altura y Peso -->
-                <TextView
-                    android:id="@+id/txtMedidas"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Altura: -- | Peso: --"
-                    android:textColor="#E2E8F0"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="6dp" />
-
-                <!-- Habilidades -->
-                <TextView
-                    android:id="@+id/txtHabilidades"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Habilidades: --"
-                    android:textColor="#E2E8F0"
-                    android:textSize="14sp" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Tarjeta de Estadísticas Base -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            app:cardBackgroundColor="#1E293B">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Estadísticas Base"
-                    android:textColor="@android:color/white"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="12dp" />
-
-                <TextView
-                    android:id="@+id/txtHp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="HP: --"
-                    android:textColor="#F87171"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="6dp" />
-
-                <TextView
-                    android:id="@+id/txtAtaque"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Ataque: --"
-                    android:textColor="#FBBF24"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="6dp" />
-
-                <TextView
-                    android:id="@+id/txtDefensa"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Defensa: --"
-                    android:textColor="#60A5FA"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="6dp" />
-
-                <TextView
-                    android:id="@+id/txtAtaqueEspecial"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Atq. Especial: --"
-                    android:textColor="#F472B6"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="6dp" />
-
-                <TextView
-                    android:id="@+id/txtDefensaEspecial"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Def. Especial: --"
-                    android:textColor="#818CF8"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="6dp" />
-
-                <TextView
-                    android:id="@+id/txtVelocidad"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Velocidad: --"
-                    android:textColor="#34D399"
-                    android:textSize="14sp" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-    </LinearLayout>
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

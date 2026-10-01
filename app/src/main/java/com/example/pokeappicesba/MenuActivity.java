@@ -1,66 +1,74 @@
 package com.example.pokeappicesba;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager2.widget.ViewPager2;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MenuActivity extends AppCompatActivity {
-
-    private TabLayout tabLayout;
-    private ViewPager2 viewPager;
-    private TextView tvTrainerName;
-    private Button btnQuickLogout;
-    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        mAuth = FirebaseAuth.getInstance();
-        tabLayout = findViewById(R.id.tabLayoutHome);
-        viewPager = findViewById(R.id.viewPagerHome);
-        tvTrainerName = findViewById(R.id.tvTrainerName);
-        btnQuickLogout = findViewById(R.id.btnQuickLogout);
+        RecyclerView rvMenuGrid = findViewById(R.id.rvMenuGrid);
+        CardView cardConfig = findViewById(R.id.cardConfig);
+        ImageView btnBack = findViewById(R.id.btnBack);
+        ImageView btnBottomLogout = findViewById(R.id.btnBottomLogout);
 
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            String name = user.getDisplayName();
-            if (name == null || name.isEmpty()) {
-                name = user.getEmail();
+        // Grid de 3 columnas
+        rvMenuGrid.setLayoutManager(new GridLayoutManager(this, 3));
+
+        List<MenuItemModel> items = new ArrayList<>();
+        // Mapeo exacto de módulos A a L con colores del diseño
+        items.add(new MenuItemModel("A", "Pokédex", android.R.drawable.ic_menu_agenda, Color.parseColor("#EF4444")));
+        items.add(new MenuItemModel("B", "Battle\nEmulator", android.R.drawable.ic_menu_crop, Color.parseColor("#F97316")));
+        items.add(new MenuItemModel("C", "Battle\nVersus", android.R.drawable.ic_menu_share, Color.parseColor("#3B82F6")));
+
+        items.add(new MenuItemModel("D", "Torre\nPokémon", android.R.drawable.ic_menu_compass, Color.parseColor("#8B5CF6")));
+        items.add(new MenuItemModel("E", "¿Quién es ese Pokémon?", android.R.drawable.ic_menu_help, Color.parseColor("#EAB308")));
+        items.add(new MenuItemModel("F", "Safari\nPokémon", android.R.drawable.ic_menu_view, Color.parseColor("#22C55E")));
+
+        items.add(new MenuItemModel("G", "Maestro\nde Tipos", android.R.drawable.ic_menu_rotate, Color.parseColor("#EC4899")));
+        items.add(new MenuItemModel("H", "PokéMemory", android.R.drawable.ic_menu_gallery, Color.parseColor("#06B6D4")));
+        items.add(new MenuItemModel("I", "Favoritos", android.R.drawable.btn_star_big_on, Color.parseColor("#F43F5E")));
+
+        items.add(new MenuItemModel("J", "Historial", android.R.drawable.ic_menu_recent_history, Color.parseColor("#2563EB")));
+        items.add(new MenuItemModel("K", "Medallas", android.R.drawable.ic_dialog_info, Color.parseColor("#475569")));
+        items.add(new MenuItemModel("L", "Mi Perfil", android.R.drawable.ic_menu_myplaces, Color.parseColor("#A855F7")));
+
+        MenuAdapter adapter = new MenuAdapter(items, item -> {
+            if ("A".equals(item.getId())) {
+                // Abre el módulo Pokédex
+                startActivity(new Intent(MenuActivity.this, MainActivity.class));
+            } else {
+                Toast.makeText(MenuActivity.this, "Módulo " + item.getId() + " (" + item.getTitle().replace("\n", " ") + ") en desarrollo", Toast.LENGTH_SHORT).show();
             }
-            tvTrainerName.setText(name);
-        }
+        });
 
-        HomePagerAdapter adapter = new HomePagerAdapter(this);
-        viewPager.setAdapter(adapter);
+        rvMenuGrid.setAdapter(adapter);
 
-        // Nombres de pestañas al estilo Pokémon HOME
-        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
-            switch (position) {
-                case 0:
-                    tab.setText("Pokédex");
-                    break;
-                case 1:
-                    tab.setText("Rincón Personal");
-                    break;
-                case 2:
-                    tab.setText("Combates");
-                    break;
-            }
-        }).attach();
+        // Módulo M
+        cardConfig.setOnClickListener(v ->
+                Toast.makeText(this, "Módulo M: Configuración", Toast.LENGTH_SHORT).show()
+        );
 
-        btnQuickLogout.setOnClickListener(v -> {
-            mAuth.signOut();
+        // Controles de navegación y salida
+        btnBack.setOnClickListener(v -> finish());
+        btnBottomLogout.setOnClickListener(v -> {
+            FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         });
