@@ -8,43 +8,97 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="14dp">
 
-        <!-- Descripción / Comportamiento -->
+        <!-- Descripción -->
         <TextView
             android:id="@+id/tvDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cargando información del Pokémon..."
+            android:text="Cargando descripción..."
             android:textColor="#E2E8F0"
             android:textSize="13sp"
             android:lineSpacingExtra="3dp"
-            android:background="#164E63"
-            android:padding="12dp"
-            android:layout_marginBottom="12dp" />
+            android:background="#1E293B"
+            android:padding="10dp"
+            android:layout_marginBottom="8dp" />
 
         <TextView
             android:id="@+id/tvDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Altura: -- | Peso: --"
-            android:textColor="#A5F3FC"
+            android:textColor="#94A3B8"
             android:textSize="13sp"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="12dp" />
 
-        <!-- Radar Hexagonal de Stats -->
+        <!-- 1. Tipos en Pastillas -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Distribución de Estadísticas"
-            android:textColor="@android:color/white"
+            android:text="Tipos"
+            android:textColor="#38BDF8"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:layout_marginBottom="4dp" />
+            android:layout_marginBottom="6dp" />
 
-        <com.example.pokeappicesba.RadarStatsView
-            android:id="@+id/radarStats"
+        <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="220dp" />
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:layout_marginBottom="12dp">
+
+            <LinearLayout
+                android:id="@+id/containerTypes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
+
+        <!-- 2. Debilidades en Pastillas de Colores -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Debilidades (Daño Recibido)"
+            android:textColor="#F87171"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="6dp" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:layout_marginBottom="12dp">
+
+            <LinearLayout
+                android:id="@+id/containerDebilidades"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
+
+        <!-- 3. Resistencias en Pastillas de Colores -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Resistencias (Daño Reducido)"
+            android:textColor="#4ADE80"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="6dp" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/containerResistencias"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
+
     </LinearLayout>
 </ScrollView>

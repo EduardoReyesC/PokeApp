@@ -14,4 +14,7 @@ public interface PokeApiService {
 
     @GET("move/{name}")
     Call<MoveDetail> getMoveDetail(@Path("name") String name);
+
+    @GET("evolution-chain/{id}")
+    Call<EvolutionChainResponse> getEvolutionChain(@Path("id") int id);
 }

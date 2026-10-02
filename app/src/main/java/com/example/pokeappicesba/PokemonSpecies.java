@@ -34,4 +34,26 @@ public class PokemonSpecies {
         private String name;
         public String getName() { return name; }
     }
+
+    @SerializedName("evolution_chain")
+    private EvolutionChainUrl evolutionChain;
+
+    public EvolutionChainUrl getEvolutionChain() { return evolutionChain; }
+
+    public static class EvolutionChainUrl {
+        private String url;
+        public String getUrl() { return url; }
+
+        public int extractId() {
+            if (url == null) return 1;
+            String clean = url.endsWith("/") ? url.substring(0, url.length() - 1) : url;
+            String[] parts = clean.split("/");
+            try {
+                return Integer.parseInt(parts[parts.length - 1]);
+            } catch (Exception e) {
+                return 1;
+            }
+        }
+    }
+
 }

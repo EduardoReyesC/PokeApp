@@ -1,13 +1,16 @@
 package com.example.pokeappicesba;
 
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +40,10 @@ public class MainActivity extends AppCompatActivity {
     private Button btnConsultar;
     private ImageButton btnPlayCry, btnFavorite, btnPrev, btnNext;
     private ImageView imgPokemon;
-    private TextView txtHeaderTitle, txtTiposTag;
+    private TextView txtHeaderTitle, txtBaseNumber;
+    private RadarStatsView headerRadarStats;
+    private LinearLayout evolutionContainer;
+    private CardView btnBottomHome;
 
     private TabLayout dexTabLayout;
     private ViewPager2 dexViewPager;
@@ -51,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
     private Pokemon currentPokemon;
     private MediaPlayer mediaPlayer;
 
-    // Control de posición en la Pokédex Nacional
     private int currentNationalDexNumber = 1;
     private int loadedSpeciesId = -1;
     private boolean isCurrentShiny = false;
@@ -72,10 +77,14 @@ public class MainActivity extends AppCompatActivity {
         btnNext = findViewById(R.id.btnNextPokemon);
         imgPokemon = findViewById(R.id.imgPokemon);
         txtHeaderTitle = findViewById(R.id.txtHeaderTitle);
-        txtTiposTag = findViewById(R.id.txtTiposTag);
+        txtBaseNumber = findViewById(R.id.txtBaseNumber);
+        headerRadarStats = findViewById(R.id.headerRadarStats);
+        evolutionContainer = findViewById(R.id.evolutionContainer);
+        btnBottomHome = findViewById(R.id.btnBottomHome);
         dexTabLayout = findViewById(R.id.dexTabLayout);
         dexViewPager = findViewById(R.id.dexViewPager);
 
+        // ViewPager2 con pestañas deslizantes
         dexViewPager.setAdapter(new FragmentStateAdapter(this) {
             @NonNull
             @Override
@@ -86,7 +95,9 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public int getItemCount() { return 3; }
+            public int getItemCount() {
+                return 3;
+            }
         });
 
         new TabLayoutMediator(dexTabLayout, dexViewPager, (tab, position) -> {
@@ -95,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
             else tab.setText("Movimientos");
         }).attach();
 
+        // Botón de búsqueda por ID o nombre
         btnConsultar.setOnClickListener(v -> {
             String q = etPokemon.getText().toString().trim().toLowerCase(Locale.ROOT);
             if (!q.isEmpty()) {
@@ -103,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Flecha Izquierda: Va al número anterior de la Pokédex Nacional
+        // Navegación ordinal en Pokédex Nacional
         btnPrev.setOnClickListener(v -> {
             if (currentNationalDexNumber > 1) {
                 currentNationalDexNumber--;
@@ -112,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Flecha Derecha: Va al siguiente número de la Pokédex Nacional (ej: Venusaur -> Charmander)
         btnNext.setOnClickListener(v -> {
             currentNationalDexNumber++;
             isCurrentShiny = false;
@@ -122,13 +133,11 @@ public class MainActivity extends AppCompatActivity {
         btnPlayCry.setOnClickListener(v -> reproducirSonido());
         btnFavorite.setOnClickListener(v -> alternarFavorito());
 
-        // Iniciar en Bulbasaur (#1)
-        consultarPokemon("1");
+        // Botón central abajo para volver al Menú
+        btnBottomHome.setOnClickListener(v -> finish());
 
-        CardView btnBottomHome = findViewById(R.id.btnBottomHome);
-        btnBottomHome.setOnClickListener(v -> {
-            finish(); // Cierra la Pokédex y vuelve al Menú Principal
-        });
+        // Iniciar en Bulbasaur
+        consultarPokemon("1");
     }
 
     public void consultarPokemon(String query) {
@@ -138,7 +147,6 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     currentPokemon = response.body();
 
-                    // Si el Pokémon tiene especie asociada, fijamos su ID nacional
                     if (currentPokemon.getSpecies() != null) {
                         currentNationalDexNumber = currentPokemon.getSpecies().extractId();
                     } else if (currentPokemon.getId() <= 1025) {
@@ -153,18 +161,16 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Pokemon> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Error de red", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     public void aplicarVariante(String variantTarget, boolean shiny) {
         this.isCurrentShiny = shiny;
-        // Si la variante solicitada es la misma ya cargada, solo alternamos el sprite Shiny
         if (currentPokemon != null && currentPokemon.getName().equalsIgnoreCase(variantTarget)) {
             actualizarSprite();
         } else {
-            // Consulta la variante sin resetear la especie base
             service.getPokemon(variantTarget).enqueue(new Callback<Pokemon>() {
                 @Override
                 public void onResponse(Call<Pokemon> call, Response<Pokemon> response) {
@@ -187,17 +193,15 @@ public class MainActivity extends AppCompatActivity {
         String shinySymbol = isCurrentShiny ? " ✨" : "";
         txtHeaderTitle.setText(num + " " + p.getName().replace("-", " ").toUpperCase(Locale.ROOT) + shinySymbol);
 
-        // Tipos
-        StringBuilder tipos = new StringBuilder();
-        if (p.getTypes() != null) {
-            for (TypeSlot t : p.getTypes()) tipos.append(t.getType().getName().toUpperCase(Locale.ROOT)).append(" / ");
+        // Recuadro del número base en la esquina superior izquierda
+        if (txtBaseNumber != null) {
+            txtBaseNumber.setText("#" + num);
         }
-        txtTiposTag.setText(tipos.length() > 3 ? tipos.substring(0, tipos.length() - 3) : "NORMAL");
 
         actualizarSprite();
         actualizarIconoFavorito(p.getId());
 
-        // Stats para Radar
+        // 1. Estadísticas en hexágono
         int hp = 50, atk = 50, def = 50, spd = 50, sDef = 50, sAtk = 50;
         if (p.getStats() != null) {
             for (PokemonStat stat : p.getStats()) {
@@ -213,11 +217,20 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+        headerRadarStats.setStats(hp, atk, def, spd, sDef, sAtk);
+
+        // 2. Cálculo de tipos, debilidades y resistencias
+        List<String> tiposList = new ArrayList<>();
+        if (p.getTypes() != null) {
+            for (TypeSlot ts : p.getTypes()) {
+                tiposList.add(ts.getType().getName());
+            }
+        }
+        TypeCalculator.TypeMatchups matchups = TypeCalculator.calculate(tiposList);
 
         String details = "Altura: " + (p.getHeight() / 10.0) + " m | Peso: " + (p.getWeight() / 10.0) + " kg";
-        final int fHp = hp, fAtk = atk, fDef = def, fSpd = spd, fSDef = sDef, fSAtk = sAtk;
 
-        // Cargar Species con el currentNationalDexNumber (evita perder las variantes al estar en megas)
+        // 3. Consulta de Species y Cadena Evolutiva
         int targetSpeciesId = currentNationalDexNumber;
         if (loadedSpeciesId != targetSpeciesId) {
             loadedSpeciesId = targetSpeciesId;
@@ -229,6 +242,8 @@ public class MainActivity extends AppCompatActivity {
 
                     if (response.isSuccessful() && response.body() != null) {
                         PokemonSpecies sp = response.body();
+
+                        // Descripción en español
                         if (sp.getFlavorTextEntries() != null) {
                             for (PokemonSpecies.FlavorText f : sp.getFlavorTextEntries()) {
                                 if (f.getLanguage() != null && "es".equals(f.getLanguage().getName())) {
@@ -237,29 +252,35 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             }
                         }
+
+                        // Lista de formas/variantes
                         if (sp.getVarieties() != null) {
                             for (PokemonSpecies.VarietyItem var : sp.getVarieties()) {
                                 variantes.add(var.getPokemon().getName());
                             }
                         }
+
+                        // Línea evolutiva
+                        if (sp.getEvolutionChain() != null) {
+                            cargarEvoluciones(sp.getEvolutionChain().extractId());
+                        }
                     }
 
                     String baseName = p.getSpecies() != null ? p.getSpecies().getName() : p.getName();
-                    tabInfo.actualizarDatos(desc, details, fHp, fAtk, fDef, fSpd, fSDef, fSAtk);
+                    tabInfo.actualizarDatos(desc, details, tiposList, matchups.weaknesses, matchups.resistances);
                     tabVariantes.setVariantes(baseName, variantes);
                 }
 
                 @Override
                 public void onFailure(Call<PokemonSpecies> call, Throwable t) {
-                    tabInfo.actualizarDatos("Error al cargar descripción.", details, fHp, fAtk, fDef, fSpd, fSDef, fSAtk);
+                    tabInfo.actualizarDatos("Error al cargar descripción.", details, tiposList, matchups.weaknesses, matchups.resistances);
                 }
             });
         } else {
-            // Ya tenemos la especie cargada, actualizamos stats de la variante sin recargar texto
-            tabInfo.actualizarDatos(null, details, fHp, fAtk, fDef, fSpd, fSDef, fSAtk);
+            tabInfo.actualizarDatos(null, details, tiposList, matchups.weaknesses, matchups.resistances);
         }
 
-        // Movimientos
+        // 4. Movimientos
         List<TabMovimientosFragment.MoveRow> moveRows = new ArrayList<>();
         if (p.getMoves() != null) {
             int limit = Math.min(8, p.getMoves().size());
@@ -275,10 +296,76 @@ public class MainActivity extends AppCompatActivity {
                             tabMoves.setMoves(moveRows);
                         }
                     }
-                    @Override public void onFailure(Call<MoveDetail> call, Throwable t) {}
+
+                    @Override
+                    public void onFailure(Call<MoveDetail> call, Throwable t) {}
                 });
             }
         }
+    }
+
+    private void cargarEvoluciones(int chainId) {
+        service.getEvolutionChain(chainId).enqueue(new Callback<EvolutionChainResponse>() {
+            @Override
+            public void onResponse(Call<EvolutionChainResponse> call, Response<EvolutionChainResponse> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().getChain() != null) {
+                    evolutionContainer.removeAllViews();
+                    pintarCadena(response.body().getChain());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EvolutionChainResponse> call, Throwable t) {}
+        });
+    }
+
+    private void pintarCadena(EvolutionChainResponse.ChainLink link) {
+        if (link == null || link.getSpecies() == null) return;
+
+        agregarVistaEvolucion(link.getSpecies().getName(), link.getSpecies().extractId());
+
+        if (link.getEvolvesTo() != null && !link.getEvolvesTo().isEmpty()) {
+            for (EvolutionChainResponse.ChainLink next : link.getEvolvesTo()) {
+                TextView arrow = new TextView(this);
+                arrow.setText(" → ");
+                arrow.setTextColor(0xFF38BDF8);
+                arrow.setTextSize(16f);
+                arrow.setPadding(8, 0, 8, 0);
+                evolutionContainer.addView(arrow);
+
+                pintarCadena(next);
+            }
+        }
+    }
+
+    private void agregarVistaEvolucion(String name, int id) {
+        LinearLayout box = new LinearLayout(this);
+        box.setOrientation(LinearLayout.VERTICAL);
+        box.setGravity(Gravity.CENTER);
+        box.setPadding(6, 4, 6, 4);
+
+        ImageView img = new ImageView(this);
+        LinearLayout.LayoutParams imgParams = new LinearLayout.LayoutParams(110, 110);
+        img.setLayoutParams(imgParams);
+
+        String spriteUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + id + ".png";
+        Glide.with(this).load(spriteUrl).into(img);
+
+        TextView tv = new TextView(this);
+        tv.setText(name.toUpperCase(Locale.ROOT));
+        tv.setTextColor(0xFFFFFFFF);
+        tv.setTextSize(10f);
+        tv.setTypeface(null, Typeface.BOLD);
+
+        box.addView(img);
+        box.addView(tv);
+
+        box.setOnClickListener(v -> {
+            isCurrentShiny = false;
+            consultarPokemon(String.valueOf(id));
+        });
+
+        evolutionContainer.addView(box);
     }
 
     private void actualizarSprite() {
@@ -305,7 +392,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void actualizarIconoFavorito(int id) {
-        btnFavorite.setImageResource(favPrefs.contains("fav_" + currentNationalDexNumber) ? android.R.drawable.star_big_on : android.R.drawable.star_big_off);
+        btnFavorite.setImageResource(favPrefs.contains("fav_" + currentNationalDexNumber)
+                ? android.R.drawable.star_big_on
+                : android.R.drawable.star_big_off);
     }
 
     private void reproducirSonido() {
