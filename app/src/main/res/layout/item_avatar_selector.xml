@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardAvatarItem"
+    android:layout_width="80dp"
+    android:layout_height="80dp"
+    android:layout_margin="6dp"
+    app:cardBackgroundColor="#1E293B"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp">
+
+    <ImageView
+        android:id="@+id/imgAvatarItem"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp"
+        android:scaleType="fitCenter"
+        android:contentDescription="Avatar de Entrenador" />
+</androidx.cardview.widget.CardView>

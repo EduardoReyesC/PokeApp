@@ -30,14 +30,14 @@ public class RadarStatsView extends View {
     private void init() {
         webPaint.setColor(Color.parseColor("#4D94A3B8"));
         webPaint.setStyle(Paint.Style.STROKE);
-        webPaint.setStrokeWidth(1.5f);
+        webPaint.setStrokeWidth(1.2f);
 
         fillPaint.setColor(Color.parseColor("#8022C55E"));
         fillPaint.setStyle(Paint.Style.FILL);
 
         linePaint.setColor(Color.parseColor("#22C55E"));
         linePaint.setStyle(Paint.Style.STROKE);
-        linePaint.setStrokeWidth(2.5f);
+        linePaint.setStrokeWidth(2f);
 
         textPaint.setColor(Color.WHITE);
         textPaint.setFakeBoldText(true);
@@ -59,16 +59,17 @@ public class RadarStatsView extends View {
         float centerX = w / 2f;
         float centerY = h / 2f;
 
-        // Tamaño de texto escalable proporcional a las dimensiones reales del canvas
-        float dynamicTextSize = Math.max(11f, Math.min(w, h) * 0.082f);
+        // Tamaño de texto adaptado estrictamente al ancho de la pantalla (entre 9sp y 11sp equivalentes)
+        float dynamicTextSize = Math.max(9f, Math.min(w * 0.055f, h * 0.075f));
         textPaint.setTextSize(dynamicTextSize);
 
-        // Radio proporcional (deja un 28% de margen perimetral para etiquetas de 3 dígitos)
+        // Radio proporcional compacto: ocupa un 40% del radio máximo para garantizar
+        // que quepan perfectamente "S.Atk: 160" sin tocar los límites
         float maxDim = Math.min(centerX, centerY);
-        float radius = maxDim * 0.62f;
-        if (radius <= 10) return;
+        float radius = maxDim * 0.46f;
+        if (radius <= 6) return;
 
-        // 1. Anillos concéntricos
+        // 1. Niveles concéntricos
         for (float level = 0.5f; level <= 1.0f; level += 0.5f) {
             Path webPath = new Path();
             for (int i = 0; i < 6; i++) {
@@ -82,8 +83,8 @@ public class RadarStatsView extends View {
             canvas.drawPath(webPath, webPaint);
         }
 
-        // 2. Radios y textos ajustados
-        float textOffset = dynamicTextSize * 0.6f;
+        // 2. Líneas radiales y textos
+        float textOffset = dynamicTextSize * 0.45f;
         for (int i = 0; i < 6; i++) {
             double angle = Math.toRadians(i * 60 - 90);
             float endX = (float) (centerX + radius * Math.cos(angle));
@@ -102,25 +103,25 @@ public class RadarStatsView extends View {
                 case 1: // Atk (Arriba Derecha)
                 case 2: // Def (Abajo Derecha)
                     textPaint.setTextAlign(Paint.Align.LEFT);
-                    textX += 4f;
-                    textY += (dynamicTextSize * 0.35f);
+                    textX += 3f;
+                    textY += (dynamicTextSize * 0.32f);
                     break;
                 case 3: // Spe (Abajo)
                     textPaint.setTextAlign(Paint.Align.CENTER);
-                    textY += (dynamicTextSize * 0.9f);
+                    textY += (dynamicTextSize * 0.85f);
                     break;
                 case 4: // S.Def (Abajo Izquierda)
                 case 5: // S.Atk (Arriba Izquierda)
                     textPaint.setTextAlign(Paint.Align.RIGHT);
-                    textX -= 4f;
-                    textY += (dynamicTextSize * 0.35f);
+                    textX -= 3f;
+                    textY += (dynamicTextSize * 0.32f);
                     break;
             }
 
             canvas.drawText(text, textX, textY, textPaint);
         }
 
-        // 3. Polígono de stats
+        // 3. Polígono del Pokémon
         Path statPath = new Path();
         for (int i = 0; i < 6; i++) {
             float normalized = Math.min(Math.max(stats[i] / MAX_STAT, 0.16f), 1.0f);

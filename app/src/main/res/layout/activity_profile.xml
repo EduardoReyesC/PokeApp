@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0F172A"
+    android:padding="16dp">
+
+    <!-- Encabezado con Botón Regresar -->
+    <LinearLayout
+        android:id="@+id/headerProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnBackProfile"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_revert"
+            app:tint="@android:color/white"
+            android:contentDescription="Regresar" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="PERFIL DE ENTRENADOR"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Tarjeta de Vista Previa del Entrenador -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardTrainerPreview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:cardBackgroundColor="#1E293B"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp"
+        app:layout_constraintTop_toBottomOf="@id/headerProfile">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/imgCurrentAvatar"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:scaleType="fitCenter"
+                android:contentDescription="Avatar Actual" />
+
+            <TextView
+                android:id="@+id/tvPlayerEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="usuario@correo.com"
+                android:textColor="#94A3B8"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/etTrainerName"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="12dp"
+                android:background="@android:drawable/editbox_background_normal"
+                android:hint="Nombre de Entrenador..."
+                android:inputType="textCapWords"
+                android:paddingHorizontal="12dp"
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Título Selector -->
+    <TextView
+        android:id="@+id/tvSelectAvatarTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Elige tu apariencia de combate:"
+        android:textColor="#38BDF8"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardTrainerPreview" />
+
+    <!-- Cuadrícula de Avatares -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvAvatarSelector"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintTop_toBottomOf="@id/tvSelectAvatarTitle"
+        app:layout_constraintBottom_toTopOf="@id/btnSaveProfile" />
+
+    <!-- Botón Guardar Cambios -->
+    <Button
+        android:id="@+id/btnSaveProfile"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:backgroundTint="#0284C7"
+        android:text="GUARDAR DATOS"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

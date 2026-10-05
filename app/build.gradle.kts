@@ -40,16 +40,21 @@ dependencies {
     implementation(libs.credentials.play.services.auth)
     implementation(libs.googleid)
     implementation(libs.material)
+
     implementation("com.squareup.retrofit2:retrofit:3.0.0")
     implementation("com.squareup.retrofit2:converter-gson:3.0.0")
     implementation("com.github.bumptech.glide:glide:5.0.9")
+
+    // Componentes de interfaz
+    implementation("com.google.android.material:material:1.11.0")
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
+
+    // Firebase BoM (gestiona las versiones automáticamente)
+    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-firestore")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.ext.junit)
-
-    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
-    implementation("com.google.firebase:firebase-auth")
-
-    implementation("com.google.android.material:material:1.11.0")
-    implementation("androidx.viewpager2:viewpager2:1.0.0")
 }

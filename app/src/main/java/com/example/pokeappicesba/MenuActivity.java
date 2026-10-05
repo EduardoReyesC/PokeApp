@@ -3,6 +3,7 @@ package com.example.pokeappicesba;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -53,6 +54,9 @@ public class MenuActivity extends AppCompatActivity {
             if ("A".equals(item.getId())) {
                 // Abre el módulo Pokédex
                 startActivity(new Intent(MenuActivity.this, MainActivity.class));
+            } else if ("L".equals(item.getId())) {
+                // Abre el módulo Perfil de Entrenador
+                startActivity(new Intent(MenuActivity.this, ProfileActivity.class));
             } else {
                 Toast.makeText(MenuActivity.this, "Módulo " + item.getId() + " (" + item.getTitle().replace("\n", " ") + ") en desarrollo", Toast.LENGTH_SHORT).show();
             }
@@ -60,17 +64,24 @@ public class MenuActivity extends AppCompatActivity {
 
         rvMenuGrid.setAdapter(adapter);
 
-        // Módulo M
-        cardConfig.setOnClickListener(v ->
-                Toast.makeText(this, "Módulo M: Configuración", Toast.LENGTH_SHORT).show()
-        );
+        // Módulo M: Configuración (también puede abrir perfil si lo deseas)
+        if (cardConfig != null) {
+            cardConfig.setOnClickListener(v ->
+                    startActivity(new Intent(MenuActivity.this, ProfileActivity.class))
+            );
+        }
 
         // Controles de navegación y salida
-        btnBack.setOnClickListener(v -> finish());
-        btnBottomLogout.setOnClickListener(v -> {
-            FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
-        });
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> finish());
+        }
+
+        if (btnBottomLogout != null) {
+            btnBottomLogout.setOnClickListener(v -> {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(MenuActivity.this, LoginActivity.class));
+                finish();
+            });
+        }
     }
 }

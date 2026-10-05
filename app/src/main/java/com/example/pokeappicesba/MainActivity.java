@@ -1,6 +1,5 @@
 package com.example.pokeappicesba;
 
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
@@ -24,6 +23,11 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
     private final TabMovimientosFragment tabMoves = new TabMovimientosFragment();
 
     private PokeApiService service;
-    private SharedPreferences favPrefs;
     private Pokemon currentPokemon;
     private MediaPlayer mediaPlayer;
 
@@ -61,12 +64,17 @@ public class MainActivity extends AppCompatActivity {
     private int loadedSpeciesId = -1;
     private boolean isCurrentShiny = false;
 
+    private FirebaseFirestore db;
+    private FirebaseUser currentUser;
+    private List<Long> userFavorites = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        favPrefs = getSharedPreferences("PokeFavorites", MODE_PRIVATE);
+        db = FirebaseFirestore.getInstance();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
         service = ApiClient.getClient().create(PokeApiService.class);
 
         etPokemon = findViewById(R.id.etPokemon);
@@ -138,6 +146,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Iniciar en Bulbasaur
         consultarPokemon("1");
+
+        // Cargar favoritos del usuario desde Firestore
+        cargarFavoritosDesdeNube();
     }
 
     public void consultarPokemon(String query) {
@@ -199,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         actualizarSprite();
-        actualizarIconoFavorito(p.getId());
+        actualizarIconoFavorito(currentNationalDexNumber);
 
         // 1. Estadísticas en hexágono
         int hp = 50, atk = 50, def = 50, spd = 50, sDef = 50, sAtk = 50;
@@ -378,23 +389,46 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void cargarFavoritosDesdeNube() {
+        if (currentUser == null) return;
+        db.collection("users").document(currentUser.getUid()).get()
+                .addOnSuccessListener(doc -> {
+                    if (doc.exists() && doc.get("favorites") != null) {
+                        userFavorites = (List<Long>) doc.get("favorites");
+                        actualizarIconoFavorito(currentNationalDexNumber);
+                    }
+                });
+    }
+
     private void alternarFavorito() {
-        if (currentPokemon == null) return;
-        String key = "fav_" + currentNationalDexNumber;
-        if (favPrefs.contains(key)) {
-            favPrefs.edit().remove(key).apply();
-            Toast.makeText(this, "Quitado de favoritos", Toast.LENGTH_SHORT).show();
-        } else {
-            favPrefs.edit().putString(key, currentPokemon.getName()).apply();
-            Toast.makeText(this, "Guardado en favoritos", Toast.LENGTH_SHORT).show();
+        if (currentUser == null) {
+            Toast.makeText(this, "Inicia sesión para guardar favoritos", Toast.LENGTH_SHORT).show();
+            return;
         }
-        actualizarIconoFavorito(currentPokemon.getId());
+
+        DocumentReference userRef = db.collection("users").document(currentUser.getUid());
+        long currentIdLong = (long) currentNationalDexNumber;
+
+        if (userFavorites.contains(currentIdLong)) {
+            userRef.update("favorites", FieldValue.arrayRemove(currentIdLong))
+                    .addOnSuccessListener(aVoid -> {
+                        userFavorites.remove(currentIdLong);
+                        actualizarIconoFavorito(currentNationalDexNumber);
+                        Toast.makeText(MainActivity.this, "Eliminado de favoritos", Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+            userRef.update("favorites", FieldValue.arrayUnion(currentIdLong))
+                    .addOnSuccessListener(aVoid -> {
+                        userFavorites.add(currentIdLong);
+                        actualizarIconoFavorito(currentNationalDexNumber);
+                        Toast.makeText(MainActivity.this, "Guardado en favoritos", Toast.LENGTH_SHORT).show();
+                    });
+        }
     }
 
     private void actualizarIconoFavorito(int id) {
-        btnFavorite.setImageResource(favPrefs.contains("fav_" + currentNationalDexNumber)
-                ? android.R.drawable.star_big_on
-                : android.R.drawable.star_big_off);
+        boolean esFavorito = userFavorites.contains((long) id);
+        btnFavorite.setImageResource(esFavorito ? android.R.drawable.star_big_on : android.R.drawable.star_big_off);
     }
 
     private void reproducirSonido() {
