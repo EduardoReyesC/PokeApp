@@ -45,6 +45,12 @@
             android:name=".ProfileActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".BattleActivity"
+            android:exported="false" />
+
+        <activity android:name=".BattleSetupActivity" />
+
     </application>
 
 </manifest>

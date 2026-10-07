@@ -1,5 +1,6 @@
 package com.example.pokeappicesba;
 
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,7 +50,7 @@ public class TabVariantesFragment extends Fragment {
         list.add(new VariantOption("Forma Base", baseName, false));
         list.add(new VariantOption("✨ Shiny (Base)", baseName, true));
 
-        // 2. Variantes de PokeAPI (evitando duplicar la forma base ya agregada)
+        // 2. Variantes de PokeAPI
         if (apiVariantes != null) {
             for (String varName : apiVariantes) {
                 if (!varName.equalsIgnoreCase(baseName)) {
@@ -75,9 +76,15 @@ public class TabVariantesFragment extends Fragment {
                 );
                 params.setMargins(6, 6, 6, 6);
                 btn.setLayoutParams(params);
-                btn.setBackgroundColor(0xFF1E293B);
-                btn.setTextColor(0xFFFFFFFF);
-                btn.setTextSize(12f);
+
+                // Estilo botón Pokédex claro: fondo gris perla con borde azul
+                GradientDrawable bg = new GradientDrawable();
+                bg.setCornerRadius(12f);
+                bg.setColor(0xFFF1F5F9);
+                bg.setStroke(2, 0xFF0284C7);
+                btn.setBackground(bg);
+
+                btn.setTextSize(11f);
                 return new RecyclerView.ViewHolder(btn) {};
             }
 
@@ -88,9 +95,9 @@ public class TabVariantesFragment extends Fragment {
                 b.setText(opt.label);
 
                 if (opt.isShiny) {
-                    b.setTextColor(0xFFFBBF24); // Tono dorado para Shiny
+                    b.setTextColor(0xFFB45309); // Ámbar oscuro/dorado legible
                 } else {
-                    b.setTextColor(0xFFFFFFFF);
+                    b.setTextColor(0xFF0F172A); // Azul noche oscuro nítido
                 }
 
                 b.setOnClickListener(v -> {

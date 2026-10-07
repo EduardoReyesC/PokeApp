@@ -2,24 +2,25 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="14dp">
+        android:padding="12dp">
 
-        <!-- Descripción -->
+        <!-- Banner de Descripción con estilo LCD / Pokedex Claro -->
         <TextView
             android:id="@+id/tvDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Cargando descripción..."
-            android:textColor="#E2E8F0"
-            android:textSize="13sp"
+            android:textColor="#1E293B"
+            android:textSize="12sp"
             android:lineSpacingExtra="3dp"
-            android:background="#1E293B"
+            android:background="#E0F2FE"
             android:padding="10dp"
             android:layout_marginBottom="8dp" />
 
@@ -28,25 +29,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Altura: -- | Peso: --"
-            android:textColor="#94A3B8"
-            android:textSize="13sp"
+            android:textColor="#475569"
+            android:textSize="12sp"
+            android:textStyle="bold"
             android:layout_marginBottom="12dp" />
 
-        <!-- 1. Tipos en Pastillas -->
+        <!-- 1. Tipos -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tipos"
-            android:textColor="#38BDF8"
-            android:textSize="14sp"
+            android:textColor="#0284C7"
+            android:textSize="13sp"
             android:textStyle="bold"
-            android:layout_marginBottom="6dp" />
+            android:layout_marginBottom="4dp" />
 
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"
-            android:layout_marginBottom="12dp">
+            android:layout_marginBottom="10dp">
 
             <LinearLayout
                 android:id="@+id/containerTypes"
@@ -55,21 +57,21 @@
                 android:orientation="horizontal" />
         </HorizontalScrollView>
 
-        <!-- 2. Debilidades en Pastillas de Colores -->
+        <!-- 2. Debilidades -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Debilidades (Daño Recibido)"
-            android:textColor="#F87171"
-            android:textSize="14sp"
+            android:textColor="#DC2626"
+            android:textSize="13sp"
             android:textStyle="bold"
-            android:layout_marginBottom="6dp" />
+            android:layout_marginBottom="4dp" />
 
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"
-            android:layout_marginBottom="12dp">
+            android:layout_marginBottom="10dp">
 
             <LinearLayout
                 android:id="@+id/containerDebilidades"
@@ -78,15 +80,15 @@
                 android:orientation="horizontal" />
         </HorizontalScrollView>
 
-        <!-- 3. Resistencias en Pastillas de Colores -->
+        <!-- 3. Resistencias -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Resistencias (Daño Reducido)"
-            android:textColor="#4ADE80"
-            android:textSize="14sp"
+            android:textColor="#16A34A"
+            android:textSize="13sp"
             android:textStyle="bold"
-            android:layout_marginBottom="6dp" />
+            android:layout_marginBottom="4dp" />
 
         <HorizontalScrollView
             android:layout_width="match_parent"

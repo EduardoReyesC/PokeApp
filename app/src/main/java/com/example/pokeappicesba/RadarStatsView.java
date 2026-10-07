@@ -28,18 +28,22 @@ public class RadarStatsView extends View {
     }
 
     private void init() {
-        webPaint.setColor(Color.parseColor("#4D94A3B8"));
+        // Líneas de la telaraña en gris visible
+        webPaint.setColor(Color.parseColor("#94A3B8"));
         webPaint.setStyle(Paint.Style.STROKE);
-        webPaint.setStrokeWidth(1.2f);
+        webPaint.setStrokeWidth(1.5f);
 
-        fillPaint.setColor(Color.parseColor("#8022C55E"));
+        // Área del polígono con verde translúcido
+        fillPaint.setColor(Color.parseColor("#6622C55E"));
         fillPaint.setStyle(Paint.Style.FILL);
 
-        linePaint.setColor(Color.parseColor("#22C55E"));
+        // Borde del polígono verde
+        linePaint.setColor(Color.parseColor("#16A34A"));
         linePaint.setStyle(Paint.Style.STROKE);
-        linePaint.setStrokeWidth(2f);
+        linePaint.setStrokeWidth(2.5f);
 
-        textPaint.setColor(Color.WHITE);
+        // Texto en azul noche oscuro para máxima legibilidad en fondo blanco
+        textPaint.setColor(Color.parseColor("#0F172A"));
         textPaint.setFakeBoldText(true);
     }
 
@@ -59,14 +63,13 @@ public class RadarStatsView extends View {
         float centerX = w / 2f;
         float centerY = h / 2f;
 
-        // Tamaño de texto adaptado estrictamente al ancho de la pantalla (entre 9sp y 11sp equivalentes)
-        float dynamicTextSize = Math.max(9f, Math.min(w * 0.055f, h * 0.075f));
+        // Tamaño dinámico del texto
+        float dynamicTextSize = Math.max(10f, Math.min(w * 0.065f, h * 0.085f));
         textPaint.setTextSize(dynamicTextSize);
 
-        // Radio proporcional compacto: ocupa un 40% del radio máximo para garantizar
-        // que quepan perfectamente "S.Atk: 160" sin tocar los límites
+        // Radio proporcional del radar
         float maxDim = Math.min(centerX, centerY);
-        float radius = maxDim * 0.46f;
+        float radius = maxDim * 0.50f;
         if (radius <= 6) return;
 
         // 1. Niveles concéntricos
@@ -84,7 +87,7 @@ public class RadarStatsView extends View {
         }
 
         // 2. Líneas radiales y textos
-        float textOffset = dynamicTextSize * 0.45f;
+        float textOffset = dynamicTextSize * 0.50f;
         for (int i = 0; i < 6; i++) {
             double angle = Math.toRadians(i * 60 - 90);
             float endX = (float) (centerX + radius * Math.cos(angle));

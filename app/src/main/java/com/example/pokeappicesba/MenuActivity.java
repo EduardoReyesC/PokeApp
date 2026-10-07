@@ -54,6 +54,9 @@ public class MenuActivity extends AppCompatActivity {
             if ("A".equals(item.getId())) {
                 // Abre el módulo Pokédex
                 startActivity(new Intent(MenuActivity.this, MainActivity.class));
+            } else if ("B".equals(item.getId())) {
+                // CORRECCIÓN: Abre primero la pantalla de configuración
+                startActivity(new Intent(MenuActivity.this, BattleSetupActivity.class));
             } else if ("L".equals(item.getId())) {
                 // Abre el módulo Perfil de Entrenador
                 startActivity(new Intent(MenuActivity.this, ProfileActivity.class));
@@ -64,7 +67,7 @@ public class MenuActivity extends AppCompatActivity {
 
         rvMenuGrid.setAdapter(adapter);
 
-        // Módulo M: Configuración (también puede abrir perfil si lo deseas)
+        // Módulo M: Configuración abre el perfil
         if (cardConfig != null) {
             cardConfig.setOnClickListener(v ->
                     startActivity(new Intent(MenuActivity.this, ProfileActivity.class))

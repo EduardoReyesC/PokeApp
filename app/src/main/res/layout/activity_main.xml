@@ -1,253 +1,405 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0F172A">
+    android:background="#DC2626">
 
-    <!-- 1. Barra de Búsqueda y Acciones Rápidas -->
-    <LinearLayout
-        android:id="@+id/topBarBox"
+    <!-- 1. CHASIS POKÉDEX (IMAGEN DE FONDO) -->
+    <ImageView
+        android:id="@+id/imgPokedexFrame"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="14dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="4dp"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <EditText
-            android:id="@+id/etPokemon"
-            android:layout_width="0dp"
-            android:layout_height="38dp"
-            android:layout_weight="1"
-            android:background="@android:drawable/editbox_background_normal"
-            android:hint="Nombre o ID..."
-            android:inputType="text"
-            android:paddingHorizontal="10dp"
-            android:textColor="@android:color/black"
-            android:textSize="13sp" />
-
-        <Button
-            android:id="@+id/btnConsultar"
-            android:layout_width="wrap_content"
-            android:layout_height="38dp"
-            android:layout_marginStart="4dp"
-            android:text="Buscar" />
-
-        <ImageButton
-            android:id="@+id/btnPlayCry"
-            android:layout_width="38dp"
-            android:layout_height="38dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Audio Cry"
-            android:src="@android:drawable/ic_lock_silent_mode_off"
-            app:tint="@android:color/white" />
-
-        <ImageButton
-            android:id="@+id/btnFavorite"
-            android:layout_width="38dp"
-            android:layout_height="38dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Favorito"
-            android:src="@android:drawable/star_big_off" />
-    </LinearLayout>
-
-    <!-- 2. Tarjeta Superior con Layout Porcentual Puro -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardPokemonHeader"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="12dp"
-        android:layout_marginTop="2dp"
-        app:cardBackgroundColor="#1E293B"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="3dp"
-        app:layout_constraintTop_toBottomOf="@id/topBarBox">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="8dp"
-            android:paddingBottom="10dp"
-            android:paddingHorizontal="4dp">
-
-            <!-- Badge Número Base de la Pokédex -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardBaseNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                app:cardCornerRadius="6dp"
-                app:cardBackgroundColor="#0F172A"
-                app:cardElevation="0dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <TextView
-                    android:id="@+id/txtBaseNumber"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="#0001"
-                    android:textColor="#38BDF8"
-                    android:textSize="11sp"
-                    android:textStyle="bold"
-                    android:paddingHorizontal="6dp"
-                    android:paddingVertical="2dp" />
-            </androidx.cardview.widget.CardView>
-
-            <!-- Flecha Anterior -->
-            <ImageButton
-                android:id="@+id/btnPrevPokemon"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@android:drawable/ic_media_previous"
-                app:tint="#FBBF24"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/imgPokemon"
-                app:layout_constraintBottom_toBottomOf="@+id/imgPokemon" />
-
-            <!-- Sprite Pokémon (40% del ancho de pantalla) -->
-            <ImageView
-                android:id="@+id/imgPokemon"
-                android:layout_width="0dp"
-                android:layout_height="140dp"
-                android:layout_marginTop="2dp"
-                android:scaleType="fitCenter"
-                android:padding="2dp"
-                android:contentDescription="Sprite del Pokémon"
-                app:layout_constraintWidth_percent="0.40"
-                app:layout_constraintStart_toEndOf="@id/btnPrevPokemon"
-                app:layout_constraintTop_toBottomOf="@id/cardBaseNumber" />
-
-            <!-- Radar de Estadísticas (50% del ancho de pantalla) -->
-            <com.example.pokeappicesba.RadarStatsView
-                android:id="@+id/headerRadarStats"
-                android:layout_width="0dp"
-                android:layout_height="140dp"
-                app:layout_constraintWidth_percent="0.50"
-                app:layout_constraintStart_toEndOf="@id/imgPokemon"
-                app:layout_constraintEnd_toStartOf="@id/btnNextPokemon"
-                app:layout_constraintTop_toTopOf="@id/imgPokemon"
-                app:layout_constraintBottom_toBottomOf="@id/imgPokemon" />
-
-            <!-- Flecha Siguiente -->
-            <ImageButton
-                android:id="@+id/btnNextPokemon"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@android:drawable/ic_media_next"
-                app:tint="#FBBF24"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/imgPokemon"
-                app:layout_constraintBottom_toBottomOf="@+id/imgPokemon" />
-
-            <!-- Nombre y Número Centrado -->
-            <TextView
-                android:id="@+id/txtHeaderTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="0001 BULBASAUR"
-                android:textColor="@android:color/white"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imgPokemon" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
-
-    <!-- 3. Pestañas Deslizantes -->
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/dexTabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_marginTop="6dp"
-        android:background="#0F172A"
-        app:tabIndicatorColor="#38BDF8"
-        app:tabIndicatorHeight="3dp"
-        app:tabSelectedTextColor="#38BDF8"
-        app:tabTextColor="#94A3B8"
-        app:tabMode="fixed"
-        app:layout_constraintTop_toBottomOf="@id/cardPokemonHeader" />
-
-    <!-- 4. ViewPager2 -->
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/dexViewPager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="#0F172A"
-        app:layout_constraintTop_toBottomOf="@id/dexTabLayout"
-        app:layout_constraintBottom_toTopOf="@id/cardEvolution" />
-
-    <!-- 5. Tarjeta de Línea Evolutiva Fija -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardEvolution"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="12dp"
-        android:layout_marginBottom="50dp"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="3dp"
-        app:cardBackgroundColor="#1E293B"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="6dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="LÍNEA EVOLUTIVA"
-                android:textColor="#38BDF8"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="2dp" />
-
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="none">
-
-                <LinearLayout
-                    android:id="@+id/evolutionContainer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical" />
-            </HorizontalScrollView>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-    <!-- 6. Botón circular flotante inferior -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/btnBottomHome"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
-        android:layout_marginBottom="6dp"
-        app:cardCornerRadius="21dp"
-        app:cardElevation="6dp"
-        app:cardBackgroundColor="#1E293B"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/pokedex"
+        android:contentDescription="Marco Pokédex"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent" />
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"
-            app:tint="#EF4444"
-            android:contentDescription="Regresar al Menú" />
+    <!-- ============================================== -->
+    <!-- GUÍAS PARA LA PANTALLA PRINCIPAL (BLANCA)       -->
+    <!-- ============================================== -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideMainTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.178" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideMainBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.718" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideMainStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.088" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideMainEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.912" />
+
+    <!-- ============================================== -->
+    <!-- GUÍAS PARA LA SUBPANTALLA VERDE (EVOLUCIONES)  -->
+    <!-- ============================================== -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideEvoTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.840" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideEvoBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.940" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideEvoStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideEvoEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.78" />
+
+    <!-- ============================================== -->
+    <!-- CONTENIDO PANTALLA PRINCIPAL                   -->
+    <!-- ============================================== -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainScreenContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#FFFFFF"
+        android:paddingHorizontal="4dp"
+        android:paddingTop="4dp"
+        app:layout_constraintTop_toTopOf="@id/guideMainTop"
+        app:layout_constraintBottom_toBottomOf="@id/guideMainBottom"
+        app:layout_constraintStart_toStartOf="@id/guideMainStart"
+        app:layout_constraintEnd_toEndOf="@id/guideMainEnd">
+
+        <!-- Barra Superior -->
+        <LinearLayout
+            android:id="@+id/topBarBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingBottom="2dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/etPokemon"
+                android:layout_width="0dp"
+                android:layout_height="34dp"
+                android:layout_weight="1"
+                android:background="@android:drawable/editbox_background_normal"
+                android:hint="ID o Nombre..."
+                android:textColorHint="#94A3B8"
+                android:inputType="text"
+                android:paddingHorizontal="8dp"
+                android:textColor="#0F172A"
+                android:textSize="11sp" />
+
+            <Button
+                android:id="@+id/btnConsultar"
+                android:layout_width="wrap_content"
+                android:layout_height="34dp"
+                android:layout_marginStart="2dp"
+                android:backgroundTint="#0284C7"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="Buscar"
+                android:textColor="@android:color/white"
+                android:textSize="10sp" />
+
+            <ImageButton
+                android:id="@+id/btnFavorite"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Favorito"
+                android:src="@android:drawable/star_big_off" />
+
+            <Button
+                android:id="@+id/btnSimulateBattle"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_marginStart="2dp"
+                android:backgroundTint="#EF4444"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:padding="0dp"
+                android:text="VS"
+                android:textColor="@android:color/white"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Tarjeta de Identificación y Radar -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardPokemonHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            app:cardBackgroundColor="#F8FAFC"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="1dp"
+            app:layout_constraintTop_toBottomOf="@id/topBarBox">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="2dp"
+                android:paddingHorizontal="2dp">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardBaseNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="4dp"
+                    app:cardBackgroundColor="#E0F2FE"
+                    app:cardElevation="0dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <TextView
+                        android:id="@+id/txtBaseNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="#0001"
+                        android:textColor="#0284C7"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:paddingHorizontal="4dp"
+                        android:paddingVertical="1dp" />
+                </androidx.cardview.widget.CardView>
+
+                <!-- Sprite Pokémon -->
+                <ImageView
+                    android:id="@+id/imgPokemon"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:scaleType="fitCenter"
+                    android:padding="2dp"
+                    android:contentDescription="Sprite del Pokémon"
+                    app:layout_constraintWidth_percent="0.48"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cardBaseNumber" />
+
+                <!-- Radar Stats -->
+                <com.example.pokeappicesba.RadarStatsView
+                    android:id="@+id/headerRadarStats"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    app:layout_constraintWidth_percent="0.50"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/imgPokemon"
+                    app:layout_constraintBottom_toBottomOf="@id/imgPokemon" />
+
+                <TextView
+                    android:id="@+id/txtHeaderTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="0001 BULBASAUR"
+                    android:textColor="#0F172A"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/imgPokemon" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- TabLayout -->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/dexTabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:layout_marginTop="2dp"
+            android:background="#E2E8F0"
+            app:tabIndicatorColor="#0284C7"
+            app:tabIndicatorHeight="2dp"
+            app:tabSelectedTextColor="#0284C7"
+            app:tabTextColor="#475569"
+            app:tabMode="fixed"
+            app:layout_constraintTop_toBottomOf="@id/cardPokemonHeader" />
+
+        <!-- ViewPager2 -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/dexViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#FFFFFF"
+            app:layout_constraintTop_toBottomOf="@id/dexTabLayout"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- ============================================== -->
+    <!-- SUBPANTALLA VERDE: LÍNEA EVOLUTIVA             -->
+    <!-- ============================================== -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardEvolution"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="@id/guideEvoTop"
+        app:layout_constraintBottom_toBottomOf="@id/guideEvoBottom"
+        app:layout_constraintStart_toStartOf="@id/guideEvoStart"
+        app:layout_constraintEnd_toEndOf="@id/guideEvoEnd">
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/evolutionContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center" />
+        </HorizontalScrollView>
     </androidx.cardview.widget.CardView>
+
+    <!-- ============================================== -->
+    <!-- GUÍAS DE CALIBRACIÓN BOTONERA INFERIOR         -->
+    <!-- ============================================== -->
+
+    <!-- Eje horizontal exclusivo del botón rojo X (Atrás)[cite: 7] -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideBackBtnCenterY"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.84" />
+
+    <!-- Eje horizontal exclusivo del D-Pad (Flechas centradas en los brazos)[cite: 7] -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideDpadCenterY"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.89" />
+
+    <!-- Eje horizontal exclusivo del botón verde con palomita -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideGreenBtnCenterY"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.92" />
+
+    <!-- Ejes verticales de los brazos izquierdo y derecho del D-Pad[cite: 7] -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideDpadLeftX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideDpadRightX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <!-- Ejes verticales de los botones derechos (X roja y Palomita verde)[cite: 7] -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideRedBtnX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.87" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideGreenBtnX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.87" />
+
+    <!-- ============================================== -->
+    <!-- CONTROLES FÍSICOS CENTRADOS EN LAS GUÍAS       -->
+    <!-- ============================================== -->
+
+    <!-- Flecha Izquierda D-Pad: Pokémon Anterior[cite: 7] -->
+    <ImageButton
+        android:id="@+id/btnPrevPokemon"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@android:drawable/ic_media_previous"
+        android:contentDescription="Anterior"
+        app:tint="#38BDF8"
+        app:layout_constraintTop_toTopOf="@id/guideDpadCenterY"
+        app:layout_constraintBottom_toBottomOf="@id/guideDpadCenterY"
+        app:layout_constraintStart_toStartOf="@id/guideDpadLeftX"
+        app:layout_constraintEnd_toEndOf="@id/guideDpadLeftX" />
+
+    <!-- Flecha Derecha D-Pad: Pokémon Siguiente[cite: 7] -->
+    <ImageButton
+        android:id="@+id/btnNextPokemon"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@android:drawable/ic_media_next"
+        android:contentDescription="Siguiente"
+        app:tint="#38BDF8"
+        app:layout_constraintTop_toTopOf="@id/guideDpadCenterY"
+        app:layout_constraintBottom_toBottomOf="@id/guideDpadCenterY"
+        app:layout_constraintStart_toStartOf="@id/guideDpadRightX"
+        app:layout_constraintEnd_toEndOf="@id/guideDpadRightX" />
+
+    <!-- Botón X Rojo: Salir al Menú (Independiente)[cite: 7] -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btnBottomHome"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:cardCornerRadius="13dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/guideBackBtnCenterY"
+        app:layout_constraintEnd_toEndOf="@id/guideRedBtnX"
+        app:layout_constraintStart_toStartOf="@id/guideRedBtnX"
+        app:layout_constraintTop_toTopOf="@id/guideBackBtnCenterY" />
+
+    <!-- Botón Palomita Verde: Rugido -->
+    <ImageButton
+        android:id="@+id/btnPlayCry"
+        android:layout_width="31dp"
+        android:layout_height="29dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Reproducir Rugido"
+        app:layout_constraintBottom_toBottomOf="@id/guideGreenBtnCenterY"
+        app:layout_constraintEnd_toEndOf="@id/guideGreenBtnX"
+        app:layout_constraintStart_toStartOf="@id/guideGreenBtnX"
+        app:layout_constraintTop_toTopOf="@id/guideGreenBtnCenterY" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

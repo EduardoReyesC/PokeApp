@@ -1,6 +1,7 @@
 package com.example.pokeappicesba;
 
 import com.google.gson.annotations.SerializedName;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Pokemon {
@@ -28,6 +29,37 @@ public class Pokemon {
     public List<PokemonMoveSlot> getMoves() { return moves; }
     public SpeciesRef getSpecies() { return species; }
 
+    // --- NUEVO MÉTODO CENTRALIZADO (DRY) ---
+    // Devuelve solo los nombres de los ataques aprendidos por nivel
+    public List<String> getLevelUpMoves() {
+        List<String> ataquesPorNivel = new ArrayList<>();
+        List<String> ataquesDeRespaldo = new ArrayList<>();
+
+        if (moves != null) {
+            for (PokemonMoveSlot slot : moves) {
+                if (slot.getMove() == null || slot.getMove().getName() == null) continue;
+
+                String moveName = slot.getMove().getName().replace("-", " ").toUpperCase();
+                ataquesDeRespaldo.add(moveName);
+
+                boolean isLevelUp = false;
+                if (slot.getVersionGroupDetails() != null) {
+                    for (VersionGroupDetail detail : slot.getVersionGroupDetails()) {
+                        if (detail.getMoveLearnMethod() != null && "level-up".equals(detail.getMoveLearnMethod().getName())) {
+                            isLevelUp = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (isLevelUp) {
+                    ataquesPorNivel.add(moveName);
+                }
+            }
+        }
+        return ataquesPorNivel.isEmpty() ? ataquesDeRespaldo : ataquesPorNivel;
+    }
+
     public static class SpeciesRef {
         private String name;
         private String url;
@@ -49,10 +81,26 @@ public class Pokemon {
 
     public static class PokemonMoveSlot {
         private MoveRef move;
+        @SerializedName("version_group_details")
+        private List<VersionGroupDetail> versionGroupDetails;
+
         public MoveRef getMove() { return move; }
+        public List<VersionGroupDetail> getVersionGroupDetails() { return versionGroupDetails; }
     }
 
     public static class MoveRef {
+        private String name;
+        public String getName() { return name; }
+    }
+
+    public static class VersionGroupDetail {
+        @SerializedName("move_learn_method")
+        private MoveLearnMethod moveLearnMethod;
+
+        public MoveLearnMethod getMoveLearnMethod() { return moveLearnMethod; }
+    }
+
+    public static class MoveLearnMethod {
         private String name;
         public String getName() { return name; }
     }

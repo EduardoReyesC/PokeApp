@@ -134,4 +134,25 @@ public class TypeCalculator {
             map.put(key, map.get(key) * value);
         }
     }
+
+    // Añade esto dentro de TypeCalculator.java
+    public static double getAttackMultiplier(String moveType, List<String> defenderTypes) {
+        if (moveType == null || defenderTypes == null || defenderTypes.isEmpty()) return 1.0;
+
+        double totalMultiplier = 1.0;
+
+        for (String defType : defenderTypes) {
+            // Reutilizamos tu lógica defensiva creando un mapa temporal para el tipo defensivo
+            Map<String, Double> eff = new HashMap<>();
+            for (String t : ALL_TYPES) { eff.put(t, 1.0); }
+
+            applyDefensiveType(defType.toLowerCase(Locale.ROOT), eff);
+
+            // El daño que hace el ataque es la debilidad del defensor a ese ataque
+            if (eff.containsKey(moveType.toLowerCase(Locale.ROOT))) {
+                totalMultiplier *= eff.get(moveType.toLowerCase(Locale.ROOT));
+            }
+        }
+        return totalMultiplier;
+    }
 }

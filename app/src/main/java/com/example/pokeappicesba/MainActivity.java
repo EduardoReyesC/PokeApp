@@ -1,5 +1,6 @@
 package com.example.pokeappicesba;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
@@ -68,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseUser currentUser;
     private List<Long> userFavorites = new ArrayList<>();
 
+    private Button btnSimulateBattle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         btnConsultar = findViewById(R.id.btnConsultar);
         btnPlayCry = findViewById(R.id.btnPlayCry);
         btnFavorite = findViewById(R.id.btnFavorite);
+        btnSimulateBattle = findViewById(R.id.btnSimulateBattle);
         btnPrev = findViewById(R.id.btnPrevPokemon);
         btnNext = findViewById(R.id.btnNextPokemon);
         imgPokemon = findViewById(R.id.imgPokemon);
@@ -92,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
         dexTabLayout = findViewById(R.id.dexTabLayout);
         dexViewPager = findViewById(R.id.dexViewPager);
 
-        // ViewPager2 con pestañas deslizantes
         dexViewPager.setAdapter(new FragmentStateAdapter(this) {
             @NonNull
             @Override
@@ -114,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
             else tab.setText("Movimientos");
         }).attach();
 
-        // Botón de búsqueda por ID o nombre
         btnConsultar.setOnClickListener(v -> {
             String q = etPokemon.getText().toString().trim().toLowerCase(Locale.ROOT);
             if (!q.isEmpty()) {
@@ -123,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Navegación ordinal en Pokédex Nacional
         btnPrev.setOnClickListener(v -> {
             if (currentNationalDexNumber > 1) {
                 currentNationalDexNumber--;
@@ -141,14 +142,16 @@ public class MainActivity extends AppCompatActivity {
         btnPlayCry.setOnClickListener(v -> reproducirSonido());
         btnFavorite.setOnClickListener(v -> alternarFavorito());
 
-        // Botón central abajo para volver al Menú
         btnBottomHome.setOnClickListener(v -> finish());
 
-        // Iniciar en Bulbasaur
         consultarPokemon("1");
-
-        // Cargar favoritos del usuario desde Firestore
         cargarFavoritosDesdeNube();
+
+        btnSimulateBattle.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, BattleSetupActivity.class);
+            intent.putExtra("PLAYER_POKEMON_ID", currentNationalDexNumber);
+            startActivity(intent);
+        });
     }
 
     public void consultarPokemon(String query) {
@@ -204,7 +207,6 @@ public class MainActivity extends AppCompatActivity {
         String shinySymbol = isCurrentShiny ? " ✨" : "";
         txtHeaderTitle.setText(num + " " + p.getName().replace("-", " ").toUpperCase(Locale.ROOT) + shinySymbol);
 
-        // Recuadro del número base en la esquina superior izquierda
         if (txtBaseNumber != null) {
             txtBaseNumber.setText("#" + num);
         }
@@ -254,7 +256,6 @@ public class MainActivity extends AppCompatActivity {
                     if (response.isSuccessful() && response.body() != null) {
                         PokemonSpecies sp = response.body();
 
-                        // Descripción en español
                         if (sp.getFlavorTextEntries() != null) {
                             for (PokemonSpecies.FlavorText f : sp.getFlavorTextEntries()) {
                                 if (f.getLanguage() != null && "es".equals(f.getLanguage().getName())) {
@@ -264,14 +265,12 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
 
-                        // Lista de formas/variantes
                         if (sp.getVarieties() != null) {
                             for (PokemonSpecies.VarietyItem var : sp.getVarieties()) {
                                 variantes.add(var.getPokemon().getName());
                             }
                         }
 
-                        // Línea evolutiva
                         if (sp.getEvolutionChain() != null) {
                             cargarEvoluciones(sp.getEvolutionChain().extractId());
                         }
@@ -291,13 +290,17 @@ public class MainActivity extends AppCompatActivity {
             tabInfo.actualizarDatos(null, details, tiposList, matchups.weaknesses, matchups.resistances);
         }
 
-        // 4. Movimientos
+        // 4. Movimientos (AHORA USA EL MÉTODO DRY DE POKEMON.JAVA)
         List<TabMovimientosFragment.MoveRow> moveRows = new ArrayList<>();
-        if (p.getMoves() != null) {
-            int limit = Math.min(8, p.getMoves().size());
+        List<String> ataquesLimpios = p.getLevelUpMoves();
+
+        if (ataquesLimpios != null && !ataquesLimpios.isEmpty()) {
+            int limit = Math.min(8, ataquesLimpios.size());
             for (int i = 0; i < limit; i++) {
-                String moveName = p.getMoves().get(i).getMove().getName();
-                service.getMoveDetail(moveName).enqueue(new Callback<MoveDetail>() {
+                String moveName = ataquesLimpios.get(i);
+                String queryName = moveName.toLowerCase().replace(" ", "-");
+
+                service.getMoveDetail(queryName).enqueue(new Callback<MoveDetail>() {
                     @Override
                     public void onResponse(Call<MoveDetail> call, Response<MoveDetail> resp) {
                         if (resp.isSuccessful() && resp.body() != null) {
@@ -312,6 +315,8 @@ public class MainActivity extends AppCompatActivity {
                     public void onFailure(Call<MoveDetail> call, Throwable t) {}
                 });
             }
+        } else {
+            tabMoves.setMoves(new ArrayList<>()); // Limpiar si no tiene ataques (raro)
         }
     }
 
@@ -339,9 +344,10 @@ public class MainActivity extends AppCompatActivity {
             for (EvolutionChainResponse.ChainLink next : link.getEvolvesTo()) {
                 TextView arrow = new TextView(this);
                 arrow.setText(" → ");
-                arrow.setTextColor(0xFF38BDF8);
-                arrow.setTextSize(16f);
-                arrow.setPadding(8, 0, 8, 0);
+                arrow.setTextColor(0xFF0284C7);
+                arrow.setTextSize(15f);
+                arrow.setTypeface(null, Typeface.BOLD);
+                arrow.setPadding(4, 0, 4, 0);
                 evolutionContainer.addView(arrow);
 
                 pintarCadena(next);
@@ -353,10 +359,10 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout box = new LinearLayout(this);
         box.setOrientation(LinearLayout.VERTICAL);
         box.setGravity(Gravity.CENTER);
-        box.setPadding(6, 4, 6, 4);
+        box.setPadding(4, 2, 4, 2);
 
         ImageView img = new ImageView(this);
-        LinearLayout.LayoutParams imgParams = new LinearLayout.LayoutParams(110, 110);
+        LinearLayout.LayoutParams imgParams = new LinearLayout.LayoutParams(95, 95);
         img.setLayoutParams(imgParams);
 
         String spriteUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + id + ".png";
@@ -364,8 +370,8 @@ public class MainActivity extends AppCompatActivity {
 
         TextView tv = new TextView(this);
         tv.setText(name.toUpperCase(Locale.ROOT));
-        tv.setTextColor(0xFFFFFFFF);
-        tv.setTextSize(10f);
+        tv.setTextColor(0xFF0F172A);
+        tv.setTextSize(9.5f);
         tv.setTypeface(null, Typeface.BOLD);
 
         box.addView(img);

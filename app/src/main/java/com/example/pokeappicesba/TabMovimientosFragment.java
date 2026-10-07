@@ -1,5 +1,6 @@
 package com.example.pokeappicesba;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,20 +52,28 @@ public class TabMovimientosFragment extends Fragment {
                 LinearLayout row = new LinearLayout(parent.getContext());
                 row.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 row.setOrientation(LinearLayout.HORIZONTAL);
-                row.setPadding(0, 14, 0, 14);
+                row.setPadding(6, 12, 6, 12);
 
+                // Nombre del Ataque (Oscuro sobre fondo blanco)
                 TextView tvN = new TextView(parent.getContext());
                 tvN.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1.4f));
-                tvN.setTextColor(0xFFFFFFFF);
+                tvN.setTextColor(0xFF0F172A);
+                tvN.setTextSize(12f);
+                tvN.setTypeface(null, Typeface.BOLD);
 
+                // Precisión (Azul cielo legible)
                 TextView tvA = new TextView(parent.getContext());
                 tvA.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.8f));
-                tvA.setTextColor(0xFFA5F3FC);
+                tvA.setTextColor(0xFF0284C7);
+                tvA.setTextSize(12f);
                 tvA.setGravity(android.view.Gravity.CENTER);
 
+                // Daño (Rojo Pokédex contrastado)
                 TextView tvP = new TextView(parent.getContext());
                 tvP.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.8f));
-                tvP.setTextColor(0xFFFBBF24);
+                tvP.setTextColor(0xFFDC2626);
+                tvP.setTextSize(12f);
+                tvP.setTypeface(null, Typeface.BOLD);
                 tvP.setGravity(android.view.Gravity.END);
 
                 row.addView(tvN);
