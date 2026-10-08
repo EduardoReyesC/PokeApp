@@ -33,7 +33,7 @@ public class MenuActivity extends AppCompatActivity {
         rvMenuGrid.setLayoutManager(new GridLayoutManager(this, 3));
 
         List<MenuItemModel> items = new ArrayList<>();
-        // Mapeo exacto de módulos A a L con colores del diseño
+        // Mapeo de módulos A a L con su color característico
         items.add(new MenuItemModel("A", "Pokédex", android.R.drawable.ic_menu_agenda, Color.parseColor("#EF4444")));
         items.add(new MenuItemModel("B", "Battle\nEmulator", android.R.drawable.ic_menu_crop, Color.parseColor("#F97316")));
         items.add(new MenuItemModel("C", "Battle\nVersus", android.R.drawable.ic_menu_share, Color.parseColor("#3B82F6")));
@@ -55,8 +55,11 @@ public class MenuActivity extends AppCompatActivity {
                 // Abre el módulo Pokédex
                 startActivity(new Intent(MenuActivity.this, MainActivity.class));
             } else if ("B".equals(item.getId())) {
-                // CORRECCIÓN: Abre primero la pantalla de configuración
+                // Abre el configurador del Battle Emulator (1v1)
                 startActivity(new Intent(MenuActivity.this, BattleSetupActivity.class));
+            } else if ("J".equals(item.getId())) {
+                // Abre el Historial de Combates
+                startActivity(new Intent(MenuActivity.this, HistoryActivity.class));
             } else if ("L".equals(item.getId())) {
                 // Abre el módulo Perfil de Entrenador
                 startActivity(new Intent(MenuActivity.this, ProfileActivity.class));
@@ -74,11 +77,12 @@ public class MenuActivity extends AppCompatActivity {
             );
         }
 
-        // Controles de navegación y salida
+        // Regresar a la pantalla anterior
         if (btnBack != null) {
             btnBack.setOnClickListener(v -> finish());
         }
 
+        // Cierre de sesión de Firebase Auth
         if (btnBottomLogout != null) {
             btnBottomLogout.setOnClickListener(v -> {
                 FirebaseAuth.getInstance().signOut();

@@ -51,6 +51,8 @@
 
         <activity android:name=".BattleSetupActivity" />
 
+        <activity android:name=".HistoryActivity" />
+
     </application>
 
 </manifest>

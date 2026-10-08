@@ -6,12 +6,10 @@
     android:layout_height="match_parent"
     android:background="#DC2626">
 
-    <!-- Bisel de Pantalla Superior (Estadio Claro) -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="6dp"
-        android:layout_marginVertical="6dp"
+        android:layout_margin="6dp"
         app:cardCornerRadius="16dp"
         app:cardElevation="4dp"
         app:cardBackgroundColor="#CBD5E1">
@@ -22,7 +20,7 @@
             android:background="#F8FAFC"
             android:layout_margin="3dp">
 
-            <!-- LÍNEA DIVISORIA: 55% Campo de Batalla, 45% Controles -->
+            <!-- LÍNEA DIVISORIA: 55% Estadio, 45% Registro y Control -->
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideLineHorizontal"
                 android:layout_width="wrap_content"
@@ -30,16 +28,20 @@
                 android:orientation="horizontal"
                 app:layout_constraintGuide_percent="0.55" />
 
-            <!-- Fondo ambiental del Campo de Batalla (55% Superior) -->
-            <View
-                android:id="@+id/battleFieldBackground"
+            <!-- IMAGEN DE FONDO DEL ESTADIO POKÉMON (fondo.png) -->
+            <ImageView
+                android:id="@+id/imgBattleBackground"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:background="#F1F5F9"
+                android:scaleType="centerCrop"
+                android:src="@drawable/fondo"
+                android:contentDescription="Estadio Pokémon"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/guideLineHorizontal" />
+                app:layout_constraintBottom_toTopOf="@id/guideLineHorizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
-            <!-- Botón para regresar -->
+            <!-- Botón Salir -->
             <ImageButton
                 android:id="@+id/btnBackBattle"
                 android:layout_width="38dp"
@@ -48,34 +50,30 @@
                 android:layout_marginTop="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@android:drawable/ic_menu_revert"
-                app:tint="#0F172A"
+                app:tint="@android:color/white"
                 android:contentDescription="Regresar"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- Botón oculto para repetir combate -->
+            <!-- Botón Repetir Combate Automático -->
             <Button
                 android:id="@+id/btnReplayBattle"
                 android:layout_width="wrap_content"
-                android:layout_height="38dp"
+                android:layout_height="36dp"
                 android:layout_marginTop="8dp"
                 android:backgroundTint="#16A34A"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
                 android:text="Repetir Combate"
                 android:textColor="@android:color/white"
-                android:textSize="12sp"
+                android:textSize="11sp"
                 android:textStyle="bold"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- ========================================== -->
-            <!-- CAMPO DE BATALLA (SUPERIOR)                -->
-            <!-- ========================================== -->
-
-            <!-- Info del Rival (Arriba a la izquierda) -->
+            <!-- Info Rival -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/boxEnemyInfo"
                 android:layout_width="wrap_content"
@@ -88,10 +86,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btnBackBattle">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:paddingHorizontal="10dp"
                     android:paddingVertical="6dp">
 
@@ -104,11 +101,25 @@
                         android:textSize="13sp"
                         android:textStyle="bold" />
 
+                    <!-- Popup de Daño Recibido Rival -->
+                    <TextView
+                        android:id="@+id/tvEnemyDamagePopup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/tvEnemyName"
+                        android:layout_marginStart="8dp"
+                        android:text="-0 HP"
+                        android:textColor="#DC2626"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:visibility="invisible" />
+
                     <ProgressBar
                         android:id="@+id/pbEnemyHp"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="135dp"
                         android:layout_height="10dp"
+                        android:layout_below="@id/tvEnemyName"
                         android:layout_marginTop="4dp"
                         android:max="100"
                         android:progress="100"
@@ -118,27 +129,30 @@
                         android:id="@+id/tvEnemyHpPercent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end"
+                        android:layout_below="@id/pbEnemyHp"
+                        android:layout_alignEnd="@id/pbEnemyHp"
                         android:text="100%"
                         android:textColor="#64748B"
                         android:textSize="10sp"
                         android:textStyle="bold" />
-                </LinearLayout>
+                </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Sprite del Rival (Frente, Arriba a la derecha) -->
+            <!-- Sprite Rival -->
+
+            <!-- Sprite Jugador -->
+
             <ImageView
                 android:id="@+id/imgEnemySprite"
                 android:layout_width="130dp"
                 android:layout_height="130dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="84dp"
+                android:layout_marginEnd="32dp"
                 android:scaleType="fitCenter"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@android:drawable/ic_menu_gallery" />
 
-            <!-- Sprite del Jugador (Espalda, Abajo a la izquierda) -->
             <ImageView
                 android:id="@+id/imgPlayerSprite"
                 android:layout_width="145dp"
@@ -150,7 +164,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 tools:src="@android:drawable/ic_menu_gallery" />
 
-            <!-- Info del Jugador (Abajo a la derecha) -->
+            <!-- Info Jugador -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/boxPlayerInfo"
                 android:layout_width="wrap_content"
@@ -163,10 +177,9 @@
                 app:layout_constraintBottom_toTopOf="@id/boxBattleLog"
                 app:layout_constraintEnd_toEndOf="parent">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:paddingHorizontal="10dp"
                     android:paddingVertical="6dp">
 
@@ -179,11 +192,25 @@
                         android:textSize="13sp"
                         android:textStyle="bold" />
 
+                    <!-- Popup de Daño Recibido Jugador -->
+                    <TextView
+                        android:id="@+id/tvPlayerDamagePopup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/tvPlayerName"
+                        android:layout_marginStart="8dp"
+                        android:text="-0 HP"
+                        android:textColor="#DC2626"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:visibility="invisible" />
+
                     <ProgressBar
                         android:id="@+id/pbPlayerHp"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="145dp"
                         android:layout_height="10dp"
+                        android:layout_below="@id/tvPlayerName"
                         android:layout_marginTop="4dp"
                         android:max="300"
                         android:progress="300"
@@ -193,15 +220,58 @@
                         android:id="@+id/tvPlayerHpExact"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end"
+                        android:layout_below="@id/pbPlayerHp"
+                        android:layout_alignEnd="@id/pbPlayerHp"
                         android:text="---/---"
                         android:textColor="#0284C7"
                         android:textSize="11sp"
                         android:textStyle="bold" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Banner Flotante de Ganador (Aparece al terminar la batalla) -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardWinnerBanner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#0F172A"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="8dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/guideLineHorizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:paddingHorizontal="24dp"
+                    android:paddingVertical="12dp">
+
+                    <TextView
+                        android:id="@+id/tvWinnerTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="¡VICTORIA!"
+                        android:textColor="#FBBF24"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvWinnerSubtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Ganador: Bulbasaur"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Caja de Texto del Combate (Battle Log) -->
+            <!-- Banner Última Acción -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/boxBattleLog"
                 android:layout_width="match_parent"
@@ -225,203 +295,44 @@
                     android:textStyle="bold" />
             </androidx.cardview.widget.CardView>
 
-            <!-- ========================================== -->
-            <!-- CONTROLES DE BATALLA (INFERIOR 45%)        -->
-            <!-- ========================================== -->
+            <!-- Historial en vivo (45% Inferior) -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:orientation="vertical"
                 android:background="#FFFFFF"
-                android:paddingHorizontal="8dp"
-                android:paddingTop="6dp"
+                android:paddingHorizontal="10dp"
+                android:paddingTop="8dp"
                 app:layout_constraintTop_toBottomOf="@id/guideLineHorizontal"
                 app:layout_constraintBottom_toBottomOf="parent">
 
-                <!-- Título Sección Ataque -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="MOVIMIENTOS DISPONIBLES"
-                    android:textColor="#DC2626"
-                    android:textSize="11sp"
-                    android:textStyle="bold"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginBottom="4dp" />
-
-                <!-- Grid de 4 botones de ataque -->
-                <GridLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:columnCount="2"
-                    android:rowCount="2">
-
-                    <!-- Ataque 1 -->
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/btnAttack1"
-                        android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:layout_rowWeight="1"
-                        android:layout_columnWeight="1"
-                        android:layout_margin="3dp"
-                        app:cardBackgroundColor="#F97316"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="2dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:gravity="center">
-                            <TextView
-                                android:id="@+id/tvAtk1Name"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="---"
-                                android:textColor="@android:color/white"
-                                android:textSize="12sp"
-                                android:textStyle="bold" />
-                            <TextView
-                                android:id="@+id/tvAtk1Info"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text=""
-                                android:textColor="#F1F5F9"
-                                android:textSize="9.5sp" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <!-- Ataque 2 -->
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/btnAttack2"
-                        android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:layout_rowWeight="1"
-                        android:layout_columnWeight="1"
-                        android:layout_margin="3dp"
-                        app:cardBackgroundColor="#D97706"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="2dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:gravity="center">
-                            <TextView
-                                android:id="@+id/tvAtk2Name"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="---"
-                                android:textColor="@android:color/white"
-                                android:textSize="12sp"
-                                android:textStyle="bold" />
-                            <TextView
-                                android:id="@+id/tvAtk2Info"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text=""
-                                android:textColor="#F1F5F9"
-                                android:textSize="9.5sp" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <!-- Ataque 3 -->
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/btnAttack3"
-                        android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:layout_rowWeight="1"
-                        android:layout_columnWeight="1"
-                        android:layout_margin="3dp"
-                        app:cardBackgroundColor="#0284C7"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="2dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:gravity="center">
-                            <TextView
-                                android:id="@+id/tvAtk3Name"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="---"
-                                android:textColor="@android:color/white"
-                                android:textSize="12sp"
-                                android:textStyle="bold" />
-                            <TextView
-                                android:id="@+id/tvAtk3Info"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text=""
-                                android:textColor="#F1F5F9"
-                                android:textSize="9.5sp" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <!-- Ataque 4 -->
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/btnAttack4"
-                        android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:layout_rowWeight="1"
-                        android:layout_columnWeight="1"
-                        android:layout_margin="3dp"
-                        app:cardBackgroundColor="#16A34A"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="2dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:gravity="center">
-                            <TextView
-                                android:id="@+id/tvAtk4Name"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="---"
-                                android:textColor="@android:color/white"
-                                android:textSize="12sp"
-                                android:textStyle="bold" />
-                            <TextView
-                                android:id="@+id/tvAtk4Info"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text=""
-                                android:textColor="#F1F5F9"
-                                android:textSize="9.5sp" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-                </GridLayout>
-
-                <!-- Título Sección Equipo -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="CAMBIAR POKÉMON"
+                    android:text="REGISTRO AUTOMÁTICO DE COMBATE"
                     android:textColor="#0284C7"
                     android:textSize="11sp"
                     android:textStyle="bold"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginStart="4dp"
                     android:layout_marginBottom="4dp" />
 
-                <HorizontalScrollView
+                <ScrollView
+                    android:id="@+id/scrollHistory"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="none">
+                    android:layout_height="match_parent"
+                    android:background="#F8FAFC"
+                    android:padding="8dp">
 
-                    <LinearLayout
-                        android:id="@+id/boxTeamSwitch"
-                        android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/tvLiveHistoryLog"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingBottom="4dp" />
-                </HorizontalScrollView>
+                        android:text="Iniciando simulación automática a Nivel 50...\n"
+                        android:textColor="#334155"
+                        android:textSize="12sp"
+                        android:lineSpacingExtra="3dp" />
+                </ScrollView>
             </LinearLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
