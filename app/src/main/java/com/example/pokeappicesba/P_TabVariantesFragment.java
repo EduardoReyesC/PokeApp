@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TabVariantesFragment extends Fragment {
+public class P_TabVariantesFragment extends Fragment {
 
     public static class VariantOption {
         public String label;

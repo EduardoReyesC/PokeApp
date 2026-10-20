@@ -12,16 +12,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder> {
+public class M_MenuAdapter extends RecyclerView.Adapter<M_MenuAdapter.MenuViewHolder> {
 
     public interface OnItemClickListener {
-        void onItemClick(MenuItemModel item);
+        void onItemClick(M_MenuItemModel item);
     }
 
-    private final List<MenuItemModel> items;
+    private final List<M_MenuItemModel> items;
     private final OnItemClickListener listener;
 
-    public MenuAdapter(List<MenuItemModel> items, OnItemClickListener listener) {
+    public M_MenuAdapter(List<M_MenuItemModel> items, OnItemClickListener listener) {
         this.items = items;
         this.listener = listener;
     }
@@ -35,10 +35,12 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull MenuViewHolder holder, int position) {
-        MenuItemModel item = items.get(position);
-        holder.tvTitle.setText(item.getId() + ". " + item.getTitle());
-        holder.ivIcon.setImageResource(item.getIconResId());
-        holder.cardItem.setCardBackgroundColor(item.getBackgroundColor());
+        M_MenuItemModel item = items.get(position);
+
+        holder.tvTitle.setText(item.getId() + ". " + item.getTitle().replace("\n", " "));
+        holder.ivIcon.setImageResource(item.getImageResId());
+
+        // Ya no cambiamos el color, siempre será blanco.
 
         holder.itemView.setOnClickListener(v -> listener.onItemClick(item));
     }

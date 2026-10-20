@@ -46,16 +46,16 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton btnPlayCry, btnFavorite, btnPrev, btnNext;
     private ImageView imgPokemon;
     private TextView txtHeaderTitle, txtBaseNumber;
-    private RadarStatsView headerRadarStats;
+    private P_RadarStatsView headerRadarStats;
     private LinearLayout evolutionContainer;
     private CardView btnBottomHome;
 
     private TabLayout dexTabLayout;
     private ViewPager2 dexViewPager;
 
-    private final TabVariantesFragment tabVariantes = new TabVariantesFragment();
-    private final TabInformacionFragment tabInfo = new TabInformacionFragment();
-    private final TabMovimientosFragment tabMoves = new TabMovimientosFragment();
+    private final P_TabVariantesFragment tabVariantes = new P_TabVariantesFragment();
+    private final P_TabInformacionFragment tabInfo = new P_TabInformacionFragment();
+    private final P_TabMovimientosFragment tabMoves = new P_TabMovimientosFragment();
 
     private PokeApiService service;
     private Pokemon currentPokemon;
@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
         cargarFavoritosDesdeNube();
 
         btnSimulateBattle.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, BattleSetupActivity.class);
+            Intent intent = new Intent(MainActivity.this, B_BattleSetupActivity.class);
             intent.putExtra("PLAYER_POKEMON_ID", currentNationalDexNumber);
             startActivity(intent);
         });
@@ -291,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // 4. Movimientos (AHORA USA EL MÉTODO DRY DE POKEMON.JAVA)
-        List<TabMovimientosFragment.MoveRow> moveRows = new ArrayList<>();
+        List<P_TabMovimientosFragment.MoveRow> moveRows = new ArrayList<>();
         List<String> ataquesLimpios = p.getLevelUpMoves();
 
         if (ataquesLimpios != null && !ataquesLimpios.isEmpty()) {
@@ -306,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
                         if (resp.isSuccessful() && resp.body() != null) {
                             String pow = resp.body().getPower() != null ? String.valueOf(resp.body().getPower()) : "--";
                             String acc = resp.body().getAccuracy() != null ? resp.body().getAccuracy() + "%" : "--";
-                            moveRows.add(new TabMovimientosFragment.MoveRow(resp.body().getName(), acc, pow));
+                            moveRows.add(new P_TabMovimientosFragment.MoveRow(resp.body().getName(), acc, pow));
                             tabMoves.setMoves(moveRows);
                         }
                     }
@@ -321,9 +321,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void cargarEvoluciones(int chainId) {
-        service.getEvolutionChain(chainId).enqueue(new Callback<EvolutionChainResponse>() {
+        service.getEvolutionChain(chainId).enqueue(new Callback<P_EvolutionChainResponse>() {
             @Override
-            public void onResponse(Call<EvolutionChainResponse> call, Response<EvolutionChainResponse> response) {
+            public void onResponse(Call<P_EvolutionChainResponse> call, Response<P_EvolutionChainResponse> response) {
                 if (response.isSuccessful() && response.body() != null && response.body().getChain() != null) {
                     evolutionContainer.removeAllViews();
                     pintarCadena(response.body().getChain());
@@ -331,17 +331,17 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<EvolutionChainResponse> call, Throwable t) {}
+            public void onFailure(Call<P_EvolutionChainResponse> call, Throwable t) {}
         });
     }
 
-    private void pintarCadena(EvolutionChainResponse.ChainLink link) {
+    private void pintarCadena(P_EvolutionChainResponse.ChainLink link) {
         if (link == null || link.getSpecies() == null) return;
 
         agregarVistaEvolucion(link.getSpecies().getName(), link.getSpecies().extractId());
 
         if (link.getEvolvesTo() != null && !link.getEvolvesTo().isEmpty()) {
-            for (EvolutionChainResponse.ChainLink next : link.getEvolvesTo()) {
+            for (P_EvolutionChainResponse.ChainLink next : link.getEvolvesTo()) {
                 TextView arrow = new TextView(this);
                 arrow.setText(" → ");
                 arrow.setTextColor(0xFF0284C7);

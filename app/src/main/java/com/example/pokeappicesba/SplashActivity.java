@@ -22,7 +22,7 @@ public class SplashActivity extends AppCompatActivity {
             Intent intent;
             if (currentUser != null) {
                 // Sesión activa -> Menú principal
-                intent = new Intent(SplashActivity.this, MenuActivity.class);
+                intent = new Intent(SplashActivity.this, M_MenuActivity.class);
             } else {
                 // Sin sesión -> Login
                 intent = new Intent(SplashActivity.this, LoginActivity.class);

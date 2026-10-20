@@ -16,13 +16,13 @@ public class HomePagerAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                return new PokedexFragment();
+                return new P_PokedexFragment();
             case 1:
                 return new ProfileFragment(); // "Rincón personal"
             case 2:
                 return new GamesFragment();   // Battle Emulator, Versus, Torre
             default:
-                return new PokedexFragment();
+                return new P_PokedexFragment();
         }
     }
 

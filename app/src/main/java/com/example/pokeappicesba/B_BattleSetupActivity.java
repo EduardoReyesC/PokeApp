@@ -9,7 +9,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.Random;
 
-public class BattleSetupActivity extends AppCompatActivity {
+public class B_BattleSetupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +42,7 @@ public class BattleSetupActivity extends AppCompatActivity {
                 return;
             }
 
-            Intent battleIntent = new Intent(BattleSetupActivity.this, BattleActivity.class);
+            Intent battleIntent = new Intent(B_BattleSetupActivity.this, B_SimuladorActivity.class);
             battleIntent.putExtra("PLAYER_QUERY", pQuery.toLowerCase());
             battleIntent.putExtra("RIVAL_QUERY", rQuery.toLowerCase());
             startActivity(battleIntent);

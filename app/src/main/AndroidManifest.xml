@@ -26,7 +26,7 @@
         </activity>
 
         <activity
-            android:name=".MenuActivity"
+            android:name=".M_MenuActivity"
             android:exported="false" />
 
         <!-- 2. Pantalla de Login a la que redirige SplashActivity -->
@@ -46,12 +46,20 @@
             android:exported="false" />
 
         <activity
-            android:name=".BattleActivity"
+            android:name=".B_SimuladorActivity"
             android:exported="false" />
 
-        <activity android:name=".BattleSetupActivity" />
+        <activity android:name=".B_BattleSetupActivity" />
 
         <activity android:name=".HistoryActivity" />
+
+        <activity android:name=".B_VersusModeActivity" />
+        <activity android:name=".B_TeamDraftActivity" />
+        <activity android:name=".B_VersusResultActivity" />
+        <activity android:name=".B_VersusLocalActivity" />
+        <activity android:name=".B_VersusLobbyActivity" />
+        <activity android:name=".B_TeamDraftOnlineActivity" />
+        <activity android:name=".B_TorreDraftActivity" />
 
     </application>
 

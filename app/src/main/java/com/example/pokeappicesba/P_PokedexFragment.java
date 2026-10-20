@@ -32,7 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PokedexFragment extends Fragment {
+public class P_PokedexFragment extends Fragment {
 
     private EditText etPokemon;
     private Button btnConsultar, btnPlayCry, btnVerFavoritos;

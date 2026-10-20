@@ -207,7 +207,7 @@
                     app:layout_constraintTop_toBottomOf="@id/cardBaseNumber" />
 
                 <!-- Radar Stats -->
-                <com.example.pokeappicesba.RadarStatsView
+                <com.example.pokeappicesba.P_RadarStatsView
                     android:id="@+id/headerRadarStats"
                     android:layout_width="0dp"
                     android:layout_height="100dp"

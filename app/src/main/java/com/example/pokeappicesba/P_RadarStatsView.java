@@ -10,7 +10,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
-public class RadarStatsView extends View {
+public class P_RadarStatsView extends View {
 
     private final Paint webPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint fillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -22,7 +22,7 @@ public class RadarStatsView extends View {
     private final String[] labels = new String[]{"HP", "Atk", "Def", "Spe", "S.Def", "S.Atk"};
     private static final float MAX_STAT = 220.0f;
 
-    public RadarStatsView(Context context, @Nullable AttributeSet attrs) {
+    public P_RadarStatsView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }

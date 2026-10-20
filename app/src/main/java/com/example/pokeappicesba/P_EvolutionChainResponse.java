@@ -3,7 +3,7 @@ package com.example.pokeappicesba;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
-public class EvolutionChainResponse {
+public class P_EvolutionChainResponse {
     private ChainLink chain;
 
     public ChainLink getChain() { return chain; }

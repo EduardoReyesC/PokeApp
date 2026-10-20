@@ -34,7 +34,7 @@ public class HistoryActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseUser currentUser;
 
-    private final List<BattleRecord> battleList = new ArrayList<>();
+    private final List<B_BattleRecord> battleList = new ArrayList<>();
     private HistoryAdapter adapter;
 
     @Override
@@ -74,7 +74,7 @@ public class HistoryActivity extends AppCompatActivity {
                     battleList.clear();
                     if (!queryDocumentSnapshots.isEmpty()) {
                         for (com.google.firebase.firestore.DocumentSnapshot doc : queryDocumentSnapshots) {
-                            BattleRecord record = doc.toObject(BattleRecord.class);
+                            B_BattleRecord record = doc.toObject(B_BattleRecord.class);
                             if (record != null) {
                                 battleList.add(record);
                             }
@@ -91,7 +91,7 @@ public class HistoryActivity extends AppCompatActivity {
                 });
     }
 
-    private void mostrarDetalleBatalla(BattleRecord record) {
+    private void mostrarDetalleBatalla(B_BattleRecord record) {
         StringBuilder sb = new StringBuilder();
         if (record.getTurnLogs() != null && !record.getTurnLogs().isEmpty()) {
             for (String log : record.getTurnLogs()) {
@@ -112,14 +112,14 @@ public class HistoryActivity extends AppCompatActivity {
     public static class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
 
         public interface OnItemClickListener {
-            void onItemClick(BattleRecord item);
+            void onItemClick(B_BattleRecord item);
         }
 
-        private final List<BattleRecord> list;
+        private final List<B_BattleRecord> list;
         private final OnItemClickListener listener;
         private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
 
-        public HistoryAdapter(List<BattleRecord> list, OnItemClickListener listener) {
+        public HistoryAdapter(List<B_BattleRecord> list, OnItemClickListener listener) {
             this.list = list;
             this.listener = listener;
         }
@@ -133,7 +133,7 @@ public class HistoryActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            BattleRecord item = list.get(position);
+            B_BattleRecord item = list.get(position);
 
             holder.tvMatchup.setText(item.getPlayerPokemon() + " VS " + item.getEnemyPokemon());
             holder.tvWinnerBadge.setText("Ganó: " + item.getWinner());

@@ -2,16 +2,16 @@ package com.example.pokeappicesba;
 
 import java.util.List;
 
-public class BattleRecord {
+public class B_BattleRecord {
     private String playerPokemon;
     private String enemyPokemon;
     private String winner;
     private long timestamp;
     private List<String> turnLogs;
 
-    public BattleRecord() {} // Constructor vacío requerido por Firestore
+    public B_BattleRecord() {} // Constructor vacío requerido por Firestore
 
-    public BattleRecord(String playerPokemon, String enemyPokemon, String winner, long timestamp, List<String> turnLogs) {
+    public B_BattleRecord(String playerPokemon, String enemyPokemon, String winner, long timestamp, List<String> turnLogs) {
         this.playerPokemon = playerPokemon;
         this.enemyPokemon = enemyPokemon;
         this.winner = winner;

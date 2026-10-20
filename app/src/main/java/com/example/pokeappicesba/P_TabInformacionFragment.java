@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment;
 import java.util.List;
 import java.util.Locale;
 
-public class TabInformacionFragment extends Fragment {
+public class P_TabInformacionFragment extends Fragment {
 
     private TextView tvDescription, tvDetails;
     private LinearLayout containerTypes, containerDebilidades, containerResistencias;

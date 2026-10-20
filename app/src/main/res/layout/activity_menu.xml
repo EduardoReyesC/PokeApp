@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="PokéApp V2"
+            android:text="PokéApp"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:textStyle="bold" />
